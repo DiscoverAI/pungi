@@ -4,10 +4,11 @@ verify_ssl = true
 name = "pypi"
 
 [packages]
-tensorflow = "1.8.0"
-requests = "2.21.0"
+requests = "*"
 
 [dev-packages]
+pytest = "*"
+pytest-mock = "*"
 
 [requires]
 python_version = "3.6"
