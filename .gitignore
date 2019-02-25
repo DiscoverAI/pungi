@@ -104,18 +104,3 @@ venv.bak/
 .mypy_cache/
 
 .idea
-
-# File-based project format
-*.iws
-
-# IntelliJ
-out/
-
-# mpeltonen/sbt-idea plugin
-.idea_modules/
-
-# Editor-based Rest Client
-.idea/httpRequests
-
-.idea/markdown-navigator.xml
-.idea/markdown-navigator/profiles_settings.xml
