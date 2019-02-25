@@ -7,3 +7,12 @@ def next_move(q_table, current_state, policy):
 
 def max_policy(q_values):
     return DIRECTION_ENCODING[q_values.index(max(q_values))]
+
+
+def get_reward(game_state):
+    if game_state["game-over"]:
+        return -100
+    elif game_state["ate-food"]:
+        return 100
+    else:
+        return 0

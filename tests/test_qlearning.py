@@ -29,3 +29,9 @@ def test_max_policy_down():
 
 def test_max_policy_up():
     assert "up" == qlearning.max_policy((-1, 2, 15, 4))
+
+
+def test_reward():
+    assert 0 == qlearning.get_reward({"game-over": False, "score": 1, "board": [], "ate-food": False})
+    assert 100 == qlearning.get_reward({"game-over": False, "score": 1, "board": [], "ate-food": True})
+    assert -100 == qlearning.get_reward({"game-over": True, "score": 1, "board": [], "ate-food": False})
