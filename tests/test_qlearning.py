@@ -21,3 +21,11 @@ def test_next_move_based_on_maximum(mocker):
     current_state = [0, 1]
     assert "up" == qlearning.next_move(q_table, current_state, policy)
     policy.assert_called_once_with((-1, 2, 15, 4))
+
+
+def test_max_policy_down():
+    assert "down" == qlearning.max_policy((-1, 2, 3, 4))
+
+
+def test_max_policy_up():
+    assert "up" == qlearning.max_policy((-1, 2, 15, 4))
