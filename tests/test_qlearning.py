@@ -43,13 +43,15 @@ def test_initialize_q_table():
                                                                                           board_height=2).tolist()
 
 
-def test_get_new_q_value():
+def test_should_calculate_zero_for_zero_learning_rate():
     assert 0.0 == qlearning.q_value(old_value=0,
                                     next_state_q_value=0,
                                     learning_rate=0,
                                     discount_factor=42,
                                     reward=100)
 
+
+def test_should_calculate_q_value_for_n_params():
     assert 1.07 == qlearning.q_value(old_value=1,
                                      next_state_q_value=3,
                                      learning_rate=0.1,
