@@ -35,3 +35,23 @@ def test_reward():
     assert 0 == qlearning.get_reward({"game-over": False, "score": 1, "board": [], "ate-food": False})
     assert 100 == qlearning.get_reward({"game-over": False, "score": 1, "board": [], "ate-food": True})
     assert -100 == qlearning.get_reward({"game-over": True, "score": 1, "board": [], "ate-food": False})
+
+
+def test_initialize_q_table():
+    assert [[[0.0, 0.0, 0.0, 0.0], [0.0, 0.0, 0.0, 0.0]],
+            [[0.0, 0.0, 0.0, 0.0], [0.0, 0.0, 0.0, 0.0]]] == qlearning.initialize_q_table(board_width=2,
+                                                                                          board_height=2).tolist()
+
+
+def test_get_new_q_value():
+    assert 0.0 == qlearning.q_value(old_value=0,
+                                    next_state_q_value=0,
+                                    learning_rate=0,
+                                    discount_factor=42,
+                                    reward=100)
+
+    assert 1.07 == qlearning.q_value(old_value=1,
+                                     next_state_q_value=3,
+                                     learning_rate=0.1,
+                                     discount_factor=0.9,
+                                     reward=-1)
