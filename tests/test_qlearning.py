@@ -1,4 +1,5 @@
 import pungi.qlearning as qlearning
+import numpy as np
 
 
 # qtable [(left,right,up,down), ...]
@@ -57,3 +58,29 @@ def test_should_calculate_q_value_for_n_params():
                                      learning_rate=0.1,
                                      discount_factor=0.9,
                                      reward=-1)
+
+
+# TODO: Add more test cases, especially for the special case of hitting the border
+def test_update_q_value(mocker):
+    with mocker.patch('pungi.qlearning.q_value', return_value=42.0):
+        test_q_table = np.array([
+            [
+                [0.0, 2.0, 1.0, 3.0], [0.0, 2.0, 1.0, 3.0]
+            ],
+            [
+                [0.0, 2.0, 1.0, 3.0], [0.0, 2.0, 1.0, 3.0]
+            ]
+        ])
+        assert [
+                   [
+                       [0.0, 2.0, 1.0, 3.0], [0.0, 2.0, 1.0, 3.0]
+                   ],
+                   [
+                       [0.0, 2.0, 42.0, 3.0], [0.0, 2.0, 1.0, 3.0]
+                   ]
+               ] == qlearning.update_q_value(q_table=test_q_table,
+                                             state=(1, 0),
+                                             action="up",
+                                             learning_rate=0.1,
+                                             discount_factor=0.9,
+                                             reward=-1).tolist()
