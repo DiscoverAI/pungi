@@ -1,4 +1,7 @@
 # pungi
+
+[![CircleCI](https://circleci.com/gh/DiscoverAI/pungi.svg?style=svg)](https://circleci.com/gh/DiscoverAI/pungi)
+
 Machine learning client for snake
 > The pungi (Hindi: पुंगी) \[...\] is a wind instrument played by snake charmers on the Indian subcontinent.
 > (from https://en.wikipedia.org/wiki/Pungi)
