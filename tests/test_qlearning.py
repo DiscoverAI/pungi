@@ -70,20 +70,19 @@ def test_should_calculate_q_value_for_n_params():
 @patch('pungi.qlearning.q_value', return_value=42)
 def test_update_q_value(q_value_patch):
     test_q_table = defaultdict(lambda: 0)
-    test_q_table[0, 1, "up"] = 1.0
-    test_q_table[0, 0, "up"] = 2.0
-    test_q_table[0, 0, "left"] = 0.0
-    test_q_table[0, 0, "right"] = 1.0
-    test_q_table[0, 0, "down"] = 3.0
+    test_q_table[(0, 1), "up"] = 1.0
+    test_q_table[(0, 0), "up"] = 2.0
+    test_q_table[(0, 0), "left"] = 0.0
+    test_q_table[(0, 0), "right"] = 1.0
+    test_q_table[(0, 0), "down"] = 3.0
     updated_q_table = qlearning.update_q_value(q_table=test_q_table,
                                                state=(0, 1),
                                                action="up",
+                                               next_state=(0, 0),
                                                learning_rate=0.1,
                                                discount_factor=0.9,
-                                               reward=-1,
-                                               board_width=2,
-                                               board_height=2)
-    assert updated_q_table[0, 1, "up"] == 42.0
+                                               reward=-1)
+    assert updated_q_table[(0, 1), "up"] == 42.0
     q_value_patch.assert_called_with(old_value=1.0,
                                      next_state_q_value=3.0,
                                      learning_rate=0.1,
@@ -92,24 +91,31 @@ def test_update_q_value(q_value_patch):
 
 
 @patch('pungi.qlearning.q_value', return_value=42)
-def test_update_q_value(q_value_patch):
+def test_update_q_value_on_edge(q_value_patch):
     test_q_table = defaultdict(lambda: 0)
-    test_q_table[0, 0, "up"] = 1.0
-    test_q_table[0, 1, "up"] = 2.1
-    test_q_table[0, 1, "left"] = 0.1
-    test_q_table[0, 1, "right"] = -2.2
-    test_q_table[0, 1, "down"] = 4.0
+    test_q_table[(0, 0), "up"] = 1.0
+    test_q_table[(0, 1), "up"] = 2.1
+    test_q_table[(0, 1), "left"] = 0.1
+    test_q_table[(0, 1), "right"] = -2.2
+    test_q_table[(0, 1), "down"] = 4.0
     updated_q_table = qlearning.update_q_value(q_table=test_q_table,
                                                state=(0, 0),
                                                action="up",
+                                               next_state=(0, 1),
                                                learning_rate=0.1,
                                                discount_factor=0.9,
-                                               reward=-1,
-                                               board_width=2,
-                                               board_height=2)
-    assert updated_q_table[0, 0, "up"] == 42.0
+                                               reward=-1)
+    assert updated_q_table[(0, 0), "up"] == 42.0
     q_value_patch.assert_called_with(old_value=1.0,
                                      next_state_q_value=4.0,
                                      learning_rate=0.1,
                                      discount_factor=0.9,
                                      reward=-1)
+
+
+def test_get_next_state():
+    assert (0, 0) == qlearning.get_next_state((0, 1), "up", 2, 2)
+    assert (0, 1) == qlearning.get_next_state((0, 0), "up", 2, 2)
+    assert (0, 0) == qlearning.get_next_state((1, 0), "right", 2, 2)
+    assert (19, 0) == qlearning.get_next_state((0, 0), "left", 20, 20)
+    assert (0, 0) == qlearning.get_next_state((0, 19), "down", 20, 20)
