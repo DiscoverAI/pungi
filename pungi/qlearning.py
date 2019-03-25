@@ -14,9 +14,9 @@ def max_policy(q_values):
 
 
 def get_reward(game_state):
-    if game_state["game-over"]:
+    if game_state["encoded-board"]["game-over"]:
         return -100
-    elif game_state["ate-food"]:
+    elif game_state["encoded-board"]["ate-food"]:
         return 100
     else:
         return -1
@@ -33,6 +33,10 @@ def q_value(old_value, next_state_q_value, learning_rate, discount_factor, rewar
 def get_next_state(state, action, board_width, board_height):
     direction_change = DIRECTION_VECTORS[action]
     return (state[0] + direction_change[0]) % board_width, (state[1] + direction_change[1]) % board_height
+
+
+def get_state_from_game_info(game_info):
+    pass
 
 
 def update_q_value(q_table, state, action, next_state, learning_rate, discount_factor, reward):

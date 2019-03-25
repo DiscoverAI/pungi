@@ -39,9 +39,12 @@ def test_max_policy_up():
 
 
 def test_reward():
-    assert -1 == qlearning.get_reward({"game-over": False, "score": 1, "board": [], "ate-food": False})
-    assert 100 == qlearning.get_reward({"game-over": False, "score": 1, "board": [], "ate-food": True})
-    assert -100 == qlearning.get_reward({"game-over": True, "score": 1, "board": [], "ate-food": False})
+    assert -1 == qlearning.get_reward(
+        {"encoded-board": {"game-over": False, "score": 1, "board": [], "ate-food": False}})
+    assert 100 == qlearning.get_reward(
+        {"encoded-board": {"game-over": False, "score": 1, "board": [], "ate-food": True}})
+    assert -100 == qlearning.get_reward(
+        {"encoded-board": {"game-over": True, "score": 1, "board": [], "ate-food": False}})
 
 
 def test_initialize_q_table():

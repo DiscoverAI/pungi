@@ -18,3 +18,7 @@ class SnakeClient:
                             + '/tokens/snake/direction',
                             json={'direction': direction},
                             headers={'Accept': 'application/json'}).json()
+
+    def get_game_info(self, game_id):
+        return requests.get(self.base_url + '/games/' + game_id,
+                            headers={'Accept': 'application/json'}).json()
