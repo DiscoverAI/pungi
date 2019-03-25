@@ -6,7 +6,7 @@ class SnakeClient:
         self.base_url = base_url
         self.game_state = None
 
-    def register_game(self, board_width, board_height, snake_length):
+    def register_new_game(self, board_width, board_height, snake_length):
         return requests.post(self.base_url + '/games',
                              json={'height': board_height,
                                    'width': board_width,
@@ -23,6 +23,3 @@ class SnakeClient:
     def get_game_info(self, game_id):
         return requests.get(self.base_url + '/games/' + game_id,
                             headers={'Accept': 'application/json'}).json()
-
-    def is_game_over(self):
-        return

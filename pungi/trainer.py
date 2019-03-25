@@ -14,7 +14,7 @@ learning_rate = 0.9
 discount_factor = 0.99
 
 while episodes < 100:
-    game_id = client.register_game(board_width=5, board_height=5, snake_length=1)
+    game_id = client.register_new_game(board_width=5, board_height=5, snake_length=1)
 
     game_info = client.get_game_info(game_id)
     current_state = game_info["tokens"]["snake"]["position"][0]

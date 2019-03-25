@@ -13,7 +13,7 @@ mock_game_info_response.json = lambda: {"game-info-key": "game-info-value"}
 @patch('requests.post', return_value=mock_register_response)
 def test_register_game(post_mock):
     client = SnakeClient("http://example.com")
-    game_id = client.register_game(board_width=1, board_height=1, snake_length=1)
+    game_id = client.register_new_game(board_width=1, board_height=1, snake_length=1)
     assert 'foobar' == game_id
     post_mock.assert_called_with('http://example.com/games',
                                  headers={'Accept': 'application/json'},
