@@ -1,4 +1,4 @@
-from pungi.snake_client import SnakeClient
+from pungi.environment.snake_client import SnakeClient
 import pungi.qlearning as qlearning
 
 # Just a sketch for todays meetup!

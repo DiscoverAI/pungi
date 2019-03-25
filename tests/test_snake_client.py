@@ -1,6 +1,6 @@
 from unittest.mock import patch
 
-from pungi.snake_client import SnakeClient
+from pungi.environment.snake_client import SnakeClient
 from requests.models import Response
 
 mock_register_response = Response()

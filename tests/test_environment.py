@@ -1,6 +1,7 @@
-from pungi.Environment import Environment
 from unittest.mock import MagicMock
-from pungi.snake_client import SnakeClient
+
+from pungi.environment.environment import Environment
+from pungi.environment.snake_client import SnakeClient
 
 
 def test_game_over_false():
