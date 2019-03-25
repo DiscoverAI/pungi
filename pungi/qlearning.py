@@ -32,7 +32,8 @@ def q_value(old_value, next_state_q_value, learning_rate, discount_factor, rewar
 
 def get_next_state(state, action, board_width, board_height):
     direction_change = DIRECTION_VECTORS[action]
-    return (state[0] + direction_change[0]) % board_width, (state[1] + direction_change[1]) % board_height
+    return (state[0] + direction_change[0]) % board_width, \
+           (state[1] + direction_change[1]) % board_height
 
 
 def get_state_from_game_info(game_info):
