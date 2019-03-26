@@ -1,10 +1,7 @@
-from pungi.environment.snake_client import SnakeClient
 import pungi.qlearning as qlearning
 
 # Just a sketch for todays meetup!
 # will be TDD'ed from scratch!!
-
-client = SnakeClient("http://localhost:8080")
 
 episodes = 0
 
