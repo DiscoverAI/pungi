@@ -40,11 +40,11 @@ def test_max_policy_up():
 
 def test_reward():
     assert -1 == qlearning.get_reward(
-        {"encoded-board": {"game-over": False, "score": 1, "board": [], "ate-food": False}})
+        {"game-over": False, "score": 1, "board": [], "ate-food": False})
     assert 100 == qlearning.get_reward(
-        {"encoded-board": {"game-over": False, "score": 1, "board": [], "ate-food": True}})
+        {"game-over": False, "score": 1, "board": [], "ate-food": True})
     assert -100 == qlearning.get_reward(
-        {"encoded-board": {"game-over": True, "score": 1, "board": [], "ate-food": False}})
+        {"game-over": True, "score": 1, "board": [], "ate-food": False})
 
 
 def test_initialize_q_table():
@@ -122,3 +122,14 @@ def test_get_next_state():
     assert (0, 0) == qlearning.get_next_state((1, 0), "right", 2, 2)
     assert (19, 0) == qlearning.get_next_state((0, 0), "left", 20, 20)
     assert (0, 0) == qlearning.get_next_state((0, 19), "down", 20, 20)
+
+
+def test_get_state_from_game_info():
+    assert [0, 0] == qlearning.get_state_from_game_info({"board": [[1, 0], [0, 0]]})
+    assert [0, 1] == qlearning.get_state_from_game_info({"board": [[0, 0], [1, 0]]})
+    assert [2, 1] == qlearning.get_state_from_game_info({"board": [[0, 0, 3], [0, 0, 1]]})
+    assert [1, 4] == qlearning.get_state_from_game_info({"board": [[0, 0, 3],
+                                                                   [0, 0, 0],
+                                                                   [0, 0, 0],
+                                                                   [0, 0, 0],
+                                                                   [0, 1, 0]]})
