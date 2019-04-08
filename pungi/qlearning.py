@@ -45,7 +45,7 @@ def get_state_from_game_info(game_info):
     board = game_info["board"]
     board = np.array(board)
     itemindex = np.where(board == CODE_SNAKE_HEAD)
-    return [itemindex[1][0], itemindex[0][0]]
+    return itemindex[1][0], itemindex[0][0]
 
 
 def update_q_value(q_table, state, action, next_state, learning_rate, discount_factor, reward):

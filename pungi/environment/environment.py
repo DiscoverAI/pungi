@@ -1,6 +1,5 @@
 import pungi.qlearning as qlearning
 import pungi.environment.backend as backend
-import logging
 
 
 def reset():
