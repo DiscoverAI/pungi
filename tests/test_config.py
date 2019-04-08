@@ -1,6 +1,7 @@
 from pungi.config import CONF
 import os
 from contextlib import contextmanager
+import tests.mock_policies
 
 
 @contextmanager
@@ -18,6 +19,10 @@ def _setup_environ(name, new_value):
 
 def test_load_config_from_file():
     assert "foo bar" == CONF.get_value("backend")
+
+
+def test_load_policy():
+    assert tests.mock_policies.mock_policy == CONF.get_policy("mock_policy")
 
 
 def test_load_config_from_environment_value():

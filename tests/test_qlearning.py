@@ -1,17 +1,16 @@
 from collections import defaultdict
 from unittest.mock import patch
-
 import pungi.qlearning as qlearning
 
 
 # qtable [(left,right,up,down), ...]
 
 def test_get_left_as_next_move(mocker):
-    q_table = {(0, 0, "left"): -1,
-               (0, 0, "right"): 2,
-               (0, 0, "up"): 3,
-               (0, 0, "down"): 4}
-    current_state = [0, 0]
+    q_table = {((0, 0), "left"): -1,
+               ((0, 0), "right"): 2,
+               ((0, 0), "up"): 3,
+               ((0, 0), "down"): 4}
+    current_state = (0, 0)
     policy = mocker.Mock()
     policy.return_value = "left"
     assert "left" == qlearning.next_move(q_table, current_state, policy)
@@ -19,23 +18,15 @@ def test_get_left_as_next_move(mocker):
 
 
 def test_next_move_based_on_maximum(mocker):
-    q_table = {(0, 1, "left"): -1,
-               (0, 1, "right"): 10,
-               (0, 1, "up"): 42,
-               (0, 1, "down"): -2}
+    q_table = {((0, 1), "left"): -1,
+               ((0, 1), "right"): 10,
+               ((0, 1), "up"): 42,
+               ((0, 1), "down"): -2}
     policy = mocker.Mock()
     policy.return_value = "up"
-    current_state = [0, 1]
+    current_state = (0, 1)
     assert "up" == qlearning.next_move(q_table, current_state, policy)
     policy.assert_called_once_with({"left": -1, "right": 10, "up": 42, "down": -2})
-
-
-def test_max_policy_down():
-    assert "down" == qlearning.max_policy({"left": -1, "right": 10, "up": 42, "down": 43.1})
-
-
-def test_max_policy_up():
-    assert "up" == qlearning.max_policy({"left": -1, "right": 10, "up": 122, "down": 42})
 
 
 def test_reward():
@@ -125,10 +116,10 @@ def test_get_next_state():
 
 
 def test_get_state_from_game_info():
-    assert [0, 0] == qlearning.get_state_from_game_info({"board": [[1, 0], [0, 0]]})
-    assert [0, 1] == qlearning.get_state_from_game_info({"board": [[0, 0], [1, 0]]})
-    assert [2, 1] == qlearning.get_state_from_game_info({"board": [[0, 0, 3], [0, 0, 1]]})
-    assert [1, 4] == qlearning.get_state_from_game_info({"board": [[0, 0, 3],
+    assert (0, 0) == qlearning.get_state_from_game_info({"board": [[1, 0], [0, 0]]})
+    assert (0, 1) == qlearning.get_state_from_game_info({"board": [[0, 0], [1, 0]]})
+    assert (2, 1) == qlearning.get_state_from_game_info({"board": [[0, 0, 3], [0, 0, 1]]})
+    assert (1, 4) == qlearning.get_state_from_game_info({"board": [[0, 0, 3],
                                                                    [0, 0, 0],
                                                                    [0, 0, 0],
                                                                    [0, 0, 0],

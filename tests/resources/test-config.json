@@ -6,5 +6,9 @@
   "snake_length": 1,
   "board_width": 1,
   "board_height": 1,
-  "q_table_initial_value": 0
+  "q_table_initial_value": 0,
+  "initial_epsilon_greedy": 0.5,
+  "epsilon_factor_per_episode": 0.9,
+  "policy_module": "tests.mock_policies",
+  "policy": "mock_policy"
 }

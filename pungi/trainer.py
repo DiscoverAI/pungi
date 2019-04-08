@@ -3,13 +3,13 @@ import pungi.environment.environment as environment
 import pungi.config as conf
 
 
-def run_episode(q_table):
+def run_episode(q_table, policy):
     learning_rate = float(conf.CONF.get_value("learning_rate"))
     discount_factor = float(conf.CONF.get_value("discount_factor"))
     game_id, state = environment.reset()
     reward = None
     while reward != -100:
-        next_action = qlearning.next_move(q_table, state, qlearning.max_policy)
+        next_action = qlearning.next_move(q_table, state, policy)
         reward, next_state, game_over, info = environment.step(next_action, game_id)
         q_table = qlearning.update_q_value(q_table,
                                            state,
@@ -26,7 +26,8 @@ def train():
     episodes = 0
     q_table_initial_value = float(conf.CONF.get_value("q_table_initial_value"))
     q_table = qlearning.initialize_q_table(initial_value=q_table_initial_value)
+    policy = conf.CONF.get_policy(policy_name=conf.CONF.get_value("policy"))
     while episodes < int(conf.CONF.get_value("episodes")):
-        q_table = run_episode(q_table)
+        q_table = run_episode(q_table, lambda q_values: policy(q_values, episodes))
         episodes += 1
     return q_table

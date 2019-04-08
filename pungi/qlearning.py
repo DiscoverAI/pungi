@@ -1,8 +1,9 @@
 from collections import defaultdict
+
 import numpy as np
 
 DIRECTION_VECTORS = {"left": [-1, 0], "right": [1, 0], "up": [0, -1], "down": [0, 1]}
-DIRECTIONS = DIRECTION_VECTORS.keys()
+DIRECTIONS = list(DIRECTION_VECTORS.keys())
 
 CODE_SNAKE_HEAD = 1
 CODE_SNAKE_TAIL = 2
@@ -10,12 +11,8 @@ CODE_FOOD = 3
 
 
 def next_move(q_table, current_state, policy):
-    return policy({action: q_table[(*current_state, action)]
+    return policy({action: q_table[current_state, action]
                    for action in DIRECTIONS})
-
-
-def max_policy(q_values):
-    return max(q_values, key=q_values.get)
 
 
 def get_reward(game_state):
