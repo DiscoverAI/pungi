@@ -1,3 +1,9 @@
 {
-  "backend": "foo bar"
+  "backend": "foo bar",
+  "episodes": 10,
+  "learning_rate": 0.9,
+  "discount_factor": 0.99,
+  "snake_length": 1,
+  "board_width": 1,
+  "board_height": 1
 }

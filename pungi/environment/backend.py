@@ -3,8 +3,11 @@ import requests
 from pungi import config
 
 
-def register_new_game(board_width, board_height, snake_length):
+def register_new_game():
     games_uri = config.CONF.get_value('backend') + '/games'
+    board_height = int(config.CONF.get_value("board_height"))
+    board_width = int(config.CONF.get_value("board_width"))
+    snake_length = int(config.CONF.get_value("snake_length"))
     response = requests.post(
         games_uri,
         json={'height': board_height, 'width': board_width, 'snakeLength': snake_length},

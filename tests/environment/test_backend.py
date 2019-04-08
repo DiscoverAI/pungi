@@ -13,7 +13,7 @@ mock_game_info_response.json = lambda: {"game-info-key": "game-info-value"}
 
 @patch('requests.post', return_value=mock_register_response)
 def test_register_game(post_mock):
-    actual = backend.register_new_game(board_width=1, board_height=1, snake_length=1)
+    actual = backend.register_new_game()
     expected = 'foobar'
 
     assert expected == actual

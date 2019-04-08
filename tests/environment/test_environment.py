@@ -1,24 +1,26 @@
 from unittest.mock import MagicMock
 
 from pungi.environment import backend
-from pungi.environment.environment import Environment
+from pungi.environment import environment
+from unittest.mock import patch
+
+mock_game_state = {
+    "game-over": True,
+    "board": "mock-board",
+    "ate-food": False,
+    "score": 10
+}
 
 
-def test_reset(mocker):
-    backend.register_new_game = MagicMock(return_value="foobar")
-    mock_game_state = {
-        "game-over": True,
-        "board": "mock-board",
-        "ate-food": False,
-        "score": 10
-    }
-    get_reward_mock = mocker.patch("pungi.qlearning.get_state_from_game_info")
-    get_reward_mock.return_value = [0, 1]
-
-    backend.get_game_info = MagicMock(return_value=mock_game_state)
-    environment = Environment(backend)
-    assert [0, 1] == environment.reset()
-    get_reward_mock.assert_called_once_with(mock_game_state)
+@patch('pungi.environment.backend.register_new_game', return_value="foobar")
+@patch('pungi.environment.backend.get_game_info', return_value=mock_game_state)
+@patch('pungi.qlearning.get_state_from_game_info', return_value=[0, 1])
+def test_reset(get_state_mock, get_game_info_mock, register_new_game_mock):
+    initialized_game = environment.reset()
+    assert "foobar", [0, 1] == initialized_game
+    get_game_info_mock.assert_called_once_with("foobar")
+    get_state_mock.assert_called_once_with(mock_game_state)
+    register_new_game_mock.assert_called_once()
 
 
 def test_make_step_game_over(mocker):
@@ -33,9 +35,7 @@ def test_make_step_game_over(mocker):
 
     get_reward_mock = mocker.patch("pungi.qlearning.get_state_from_game_info")
     get_reward_mock.return_value = [0, 1]
-
-    test_environment = Environment(backend)
-    reward, next_state, done, info = test_environment.step("up")
+    reward, next_state, done, info = environment.step("up", "foo bar")
     assert reward == 42
     assert next_state == [0, 1]
     assert done
@@ -53,11 +53,10 @@ def test_make_step(mocker):
     get_reward_mock = mocker.patch("pungi.qlearning.get_reward")
     get_reward_mock.return_value = 32
 
-    get_reward_mock = mocker.patch("pungi.qlearning.get_state_from_game_info")
-    get_reward_mock.return_value = [1, 1]
+    get_game_state_from_game_info = mocker.patch("pungi.qlearning.get_state_from_game_info")
+    get_game_state_from_game_info.return_value = [1, 1]
 
-    test_environment = Environment(backend)
-    reward, next_state, done, info = test_environment.step("up")
+    reward, next_state, done, info = environment.step("up", "foo bar")
     assert reward == 32
     assert next_state == [1, 1]
     assert not done

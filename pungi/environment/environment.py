@@ -1,19 +1,18 @@
 import pungi.qlearning as qlearning
+import pungi.environment.backend as backend
+import logging
 
 
-class Environment:
-    def __init__(self, backend):
-        self.backend = backend
+def reset():
+    game_id = backend.register_new_game()
+    game_info = backend.get_game_info(game_id)
+    return game_id, qlearning.get_state_from_game_info(game_info)
 
-    def reset(self):
-        game_id = self.backend.register_new_game()
-        game_info = self.backend.get_game_info(game_id)
-        return qlearning.get_state_from_game_info(game_info)
 
-    def step(self, action):
-        next_state = self.backend.make_move(action)
-        reward = qlearning.get_reward(next_state)
-        next_position = qlearning.get_state_from_game_info(next_state)
-        game_over = next_state["game-over"]
-        info = {"score": next_state["score"]}
-        return reward, next_position, game_over, info
+def step(action, game_id):
+    next_state = backend.make_move(action, game_id)
+    reward = qlearning.get_reward(next_state)
+    next_position = qlearning.get_state_from_game_info(next_state)
+    game_over = next_state["game-over"]
+    info = {"score": next_state["score"]}
+    return reward, next_position, game_over, info
