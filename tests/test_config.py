@@ -1,7 +1,6 @@
+from pungi.config import CONF
 import os
 from contextlib import contextmanager
-
-from pungi.config import CONF
 
 
 @contextmanager
@@ -18,8 +17,7 @@ def _setup_environ(name, new_value):
 
 
 def test_load_config_from_file():
-    with _setup_environ('BACKEND', ''):
-        assert "foo bar" == CONF.get_value("backend")
+    assert "foo bar" == CONF.get_value("backend")
 
 
 def test_load_config_from_environment_value():
