@@ -5,6 +5,7 @@ import pungi.qlearning as qlearning
 import webbrowser
 import time
 
+
 def play_in_spectator_mode(q_table):
     registered_gameid, state = env.reset()
     webbrowser.open_new(conf.CONF.get_value("backend") + '/?spectate-game-id=' + registered_gameid)

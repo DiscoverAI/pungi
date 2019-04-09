@@ -1,4 +1,5 @@
 import pungi.policies
+import pungi.qlearning
 from unittest.mock import patch
 
 
@@ -22,11 +23,13 @@ def test_max_epsilon_greedy_up():
 
 @patch('numpy.random.choice', lambda x, p: x[1])
 @patch('random.choice', return_value="right")
-def test_max_epsilon_greedy_down_explore(np_choice_mock):
+def test_max_epsilon_greedy_down_explore(random_choice_mock):
     assert "right" == pungi.policies.epsilon_greedy_max_policy({"left": -1, "right": 10, "up": 122, "down": 42}, 0)
+    random_choice_mock.assert_called_once_with(pungi.qlearning.DIRECTIONS)
 
 
 @patch('numpy.random.choice', lambda x, p: x[1])
 @patch('random.choice', return_value="down")
-def test_max_epsilon_greedy_up_explore(np_choice_mock):
+def test_max_epsilon_greedy_up_explore(random_choice_mock):
     assert "down" == pungi.policies.epsilon_greedy_max_policy({"left": -1, "right": 10, "up": 122, "down": 42}, 0)
+    random_choice_mock.assert_called_once_with(pungi.qlearning.DIRECTIONS)

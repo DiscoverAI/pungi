@@ -1,6 +1,5 @@
 from unittest.mock import patch, ANY, call
 import pungi.trainer as trainer
-import tests.mock_policies
 
 
 @patch('pungi.qlearning.update_q_value', return_value="updated_q_table")
@@ -15,16 +14,18 @@ def test_run_episode(step_mock, reset_mock, next_move_mock,
                      update_q_value_mock):
     initial_q_table = "initial_q_table"
 
-    trainer.run_episode(initial_q_table, tests.mock_policies.mock_policy)
+    some_policy = lambda q_values: q_values["up"]
+
+    trainer.run_episode(initial_q_table, some_policy)
     reset_mock.assert_called_once()
     step_mock.assert_has_calls([call("down", "foo bar")] * 3)
     update_q_value_mock.assert_has_calls([
         call("initial_q_table", [0, 0], 'down', [0, 1], 0.9, 0.99, -1),
         call('updated_q_table', [0, 1], 'down', [0, 2], 0.9, 0.99, -1),
         call('updated_q_table', [0, 2], 'down', [0, 3], 0.9, 0.99, -100)])
-    next_move_mock.assert_has_calls([call("initial_q_table", [0, 0], tests.mock_policies.mock_policy),
-                                     call("updated_q_table", [0, 1], tests.mock_policies.mock_policy),
-                                     call("updated_q_table", [0, 2], tests.mock_policies.mock_policy)])
+    next_move_mock.assert_has_calls([call("initial_q_table", [0, 0], some_policy),
+                                     call("updated_q_table", [0, 1], some_policy),
+                                     call("updated_q_table", [0, 2], some_policy)])
 
 
 @patch('pungi.qlearning.initialize_q_table', return_value="initial_table")
