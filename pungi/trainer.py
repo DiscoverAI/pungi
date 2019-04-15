@@ -7,8 +7,8 @@ def run_episode(q_table, policy):
     learning_rate = float(conf.CONF.get_value("learning_rate"))
     discount_factor = float(conf.CONF.get_value("discount_factor"))
     game_id, state = environment.reset()
-    reward = None
-    while reward != -100:
+    game_over = False
+    while not game_over:
         next_action = qlearning.next_move(q_table, state, policy)
         reward, next_state, game_over, info = environment.step(next_action, game_id)
         q_table = qlearning.update_q_value(q_table,

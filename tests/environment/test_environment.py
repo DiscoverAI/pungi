@@ -18,38 +18,32 @@ game_in_progress_game_state = {
 
 @patch('pungi.environment.backend.register_new_game', return_value="foobar")
 @patch('pungi.environment.backend.get_game_info', return_value=game_over_game_state)
-@patch('pungi.qlearning.get_state_from_game_info', return_value=[0, 1])
-def test_reset(get_state_mock, get_game_info_mock, register_new_game_mock):
+def test_reset(get_game_info_mock, register_new_game_mock):
     initialized_game = environment.reset()
     assert "foobar", [0, 1] == initialized_game
     get_game_info_mock.assert_called_once_with("foobar")
-    get_state_mock.assert_called_once_with(game_over_game_state)
     register_new_game_mock.assert_called_once()
 
 
 @patch('pungi.environment.backend.make_move', return_value=game_over_game_state)
 @patch('pungi.qlearning.get_reward', return_value=42)
-@patch('pungi.qlearning.get_state_from_game_info', return_value=[0, 1])
-def test_make_step_game_over(get_state_mock, get_reward_mock, make_move_mock):
+def test_make_step_game_over(get_reward_mock, make_move_mock):
     reward, next_state, done, info = environment.step("up", "foo bar")
     assert reward == 42
     assert next_state == [0, 1]
     assert done
     assert info == {"score": 10}
     get_reward_mock.assert_called_once_with(game_over_game_state)
-    get_state_mock.assert_called_once_with(game_over_game_state)
     make_move_mock.assert_called_once_with("up", "foo bar")
 
 
 @patch('pungi.environment.backend.make_move', return_value=game_in_progress_game_state)
 @patch('pungi.qlearning.get_reward', return_value=32)
-@patch('pungi.qlearning.get_state_from_game_info', return_value=[1, 1])
-def test_make_step(get_state_mock, get_reward_mock, make_move_mock):
+def test_make_step(get_reward_mock, make_move_mock):
     reward, next_state, done, info = environment.step("left", "bar foo")
     assert reward == 32
-    assert next_state == [1, 1]
+    assert next_state == [0, 1]
     assert not done
     assert info == {"score": 22}
     get_reward_mock.assert_called_once_with(game_in_progress_game_state)
-    get_state_mock.assert_called_once_with(game_in_progress_game_state)
     make_move_mock.assert_called_once_with("left", "bar foo")

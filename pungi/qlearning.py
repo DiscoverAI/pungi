@@ -1,13 +1,7 @@
 from collections import defaultdict
 
-import numpy as np
-
 DIRECTION_VECTORS = {"left": [-1, 0], "right": [1, 0], "up": [0, -1], "down": [0, 1]}
 DIRECTIONS = list(DIRECTION_VECTORS.keys())
-
-CODE_SNAKE_HEAD = 1
-CODE_SNAKE_TAIL = 2
-CODE_FOOD = 3
 
 
 def next_move(q_table, current_state, policy):
@@ -17,9 +11,9 @@ def next_move(q_table, current_state, policy):
 
 def get_reward(game_state):
     if game_state["game-over"]:
-        return -100
+        return -2
     elif game_state["ate-food"]:
-        return 100
+        return 1000
     else:
         return -1
 
@@ -36,13 +30,6 @@ def get_next_state(state, action, board_width, board_height):
     direction_change = DIRECTION_VECTORS[action]
     return (state[0] + direction_change[0]) % board_width, \
            (state[1] + direction_change[1]) % board_height
-
-
-def get_state_from_game_info(game_info):
-    board = game_info["board"]
-    board = np.array(board)
-    itemindex = np.where(board == CODE_SNAKE_HEAD)
-    return itemindex[1][0], itemindex[0][0]
 
 
 def update_q_value(q_table, state, action, next_state, learning_rate, discount_factor, reward):
