@@ -15,5 +15,7 @@ def test_save_simple_q_table():
     if not os.path.exists(test_dir):
         os.makedirs(test_dir)
     persistence.save(test_q_table, test_dir + filename)
-    assert test_q_table == persistence.load(test_dir + filename)
+    loaded = persistence.load(test_dir + filename)
+    assert test_q_table == loaded
+    assert 5 == loaded["non_existing_key"]
     shutil.rmtree(test_dir)
