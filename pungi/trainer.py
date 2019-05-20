@@ -1,6 +1,7 @@
 import pungi.qlearning as qlearning
 import pungi.environment.environment as environment
 import pungi.config as conf
+import pungi.policies as policies
 
 
 def run_episode(q_table, policy):
@@ -26,7 +27,7 @@ def train():
     episodes = 0
     q_table_initial_value = float(conf.CONF.get_value("q_table_initial_value"))
     q_table = qlearning.initialize_q_table(initial_value=q_table_initial_value)
-    policy = conf.CONF.get_policy(policy_name=conf.CONF.get_value("policy"))
+    policy = policies.get_policy(policy_name=conf.CONF.get_value("policy"))
     while episodes < int(conf.CONF.get_value("episodes")):
         q_table = run_episode(q_table, lambda q_values: policy(q_values, episodes))
         episodes += 1

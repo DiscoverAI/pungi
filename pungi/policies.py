@@ -1,3 +1,5 @@
+import importlib
+
 import numpy as np
 from pungi.qlearning import DIRECTIONS
 import random
@@ -14,3 +16,7 @@ def epsilon_greedy_max_policy(q_values, episode_number):
     current_epsilon = initial_epsilon * (epsilon_factor ** episode_number)
     return np.random.choice([max(q_values, key=q_values.get), random.choice(DIRECTIONS)],
                             p=[1 - current_epsilon, current_epsilon])
+
+
+def get_policy(policy_name):
+    return globals()[policy_name]

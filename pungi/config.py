@@ -19,10 +19,6 @@ class _Config(object):
             value = self._state[name]
         return value
 
-    def get_policy(self, policy_name):
-        module = importlib.import_module(self.get_value("policy_module"))
-        return getattr(module, policy_name)
-
     def get_state_extractor(self, function_name):
         module = importlib.import_module(self.get_value("state_extractor_module"))
         return getattr(module, function_name)

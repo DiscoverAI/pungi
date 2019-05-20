@@ -1,6 +1,6 @@
 from unittest.mock import patch, ANY, call
 import pungi.trainer as trainer
-
+import tests.mock_policies
 
 @patch('pungi.qlearning.update_q_value', return_value="updated_q_table")
 @patch('pungi.qlearning.next_move', return_value="down")
@@ -30,7 +30,8 @@ def test_run_episode(step_mock, reset_mock, next_move_mock,
 
 @patch('pungi.qlearning.initialize_q_table', return_value="initial_table")
 @patch('pungi.trainer.run_episode', side_effect=["updated-table-1", "updated-table-2", "updated-table-3"])
-def test_train(run_episode_mock, init_q_table_mock):
+@patch('pungi.policies.globals', return_value={"mock_policy": tests.mock_policies.mock_policy})
+def test_train(_globals_mock, run_episode_mock, init_q_table_mock):
     training_result = trainer.train()
     assert training_result == "updated-table-3"
     init_q_table_mock.assert_called_once_with(initial_value=0)

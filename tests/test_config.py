@@ -21,10 +21,6 @@ def test_load_config_from_file():
     assert "foo bar" == CONF.get_value("backend")
 
 
-def test_load_policy():
-    assert tests.mock_policies.mock_policy == CONF.get_policy("mock_policy")
-
-
 def test_load_config_from_environment_value():
     with _setup_environ('BACKEND', 'foobar'):
         assert "foobar" == CONF.get_value("backend")
