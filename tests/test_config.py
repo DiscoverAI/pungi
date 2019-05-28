@@ -1,7 +1,6 @@
 from pungi.config import CONF
 import os
 from contextlib import contextmanager
-import tests.mock_policies
 
 
 @contextmanager

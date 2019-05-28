@@ -19,10 +19,6 @@ class _Config(object):
             value = self._state[name]
         return value
 
-    def get_state_extractor(self, function_name):
-        module = importlib.import_module(self.get_value("state_extractor_module"))
-        return getattr(module, function_name)
-
     @staticmethod
     def _to_environ_varname(string):
         return string.upper().replace('-', '_')
