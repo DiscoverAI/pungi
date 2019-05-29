@@ -27,6 +27,6 @@ def test_get_head_and_food_state_from_game_info():
                                                                                    [0, 1, 0]]})
 
 
-@patch('pungi.policies.globals', return_value={"mock_state_extractor": tests.mock_states.mocked_state_extractor})
+@patch('pungi.state.globals', return_value={"mocked_state_extractor": tests.mock_states.mocked_state_extractor})
 def test_load_policy(globals_mock):
-    assert tests.mock_states.mocked_state_extractor == pungi.state.get_state_extractor("mock_state_extractor")
+    assert tests.mock_states.mocked_state_extractor == pungi.state.get_state_extractor("mocked_state_extractor")
