@@ -4,6 +4,7 @@ import pungi.metrics as metrics
 import re
 import os
 
+
 @patch("pungi.ml_agent.play_in_background", side_effect=[
     10,
     22,
@@ -27,4 +28,3 @@ def test_calculate_and_write_metrics(get_average_cumulative_reward):
             "average_cumulative_reward": 42
         }""")
     os.remove(test_json_file_path)
-

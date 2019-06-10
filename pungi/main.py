@@ -1,4 +1,5 @@
 import pungi.trainer as trainer
+import pungi.metrics as metrics
 import pungi.ml_agent as agent
 import pungi.persistence as persistence
 import time
@@ -6,6 +7,14 @@ import sys
 import logging
 
 logger = logging.getLogger(__name__)
+
+
+def load_q_table_from_args(argv):
+    if len(argv) <= 2:
+        raise FileNotFoundError("Please provide a model path that the agent should use to play.")
+    q_table_file = argv[2]
+    q_table = persistence.load(q_table_file)
+    return q_table
 
 
 def run(argv):
@@ -19,12 +28,13 @@ def run(argv):
         # Maybe we should do that in JSON format to integrate with dvc metrics tracking?
         # https://github.com/iterative/dvc.org/blob/master/static/docs/get-started/compare-experiments.md
     elif mode == "play":
-        if len(argv) <= 2:
-            logging.info("Please provide a model path that the agent should use to play.")
-            return -1
-        q_table_file = argv[2]
-        q_table = persistence.load(q_table_file)
+        q_table = load_q_table_from_args(argv)
         agent.play_in_spectator_mode(q_table)
+    elif mode == "eval":
+        q_table = load_q_table_from_args(argv)
+        metrics.calculate_and_write_metrics(episodes=10,
+                                            q_table=q_table,
+                                            output_path="./out/metrics-" + str(int(time.time())) + ".json")
     else:
         logging.warning("First argument must be either train, test or play.")
         return -1

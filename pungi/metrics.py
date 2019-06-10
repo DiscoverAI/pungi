@@ -12,6 +12,6 @@ def get_average_cumulative_reward(episodes, q_table):
 
 def calculate_and_write_metrics(episodes, q_table, output_path):
     average_reward = get_average_cumulative_reward(episodes, q_table)
-    metric_dic = {"average_cumulative_reward": average_reward}
+    metric_dict = {"average_cumulative_reward": average_reward}
     with open(output_path, "w") as metrics_file:
-        metrics_file.write(json.dumps(metric_dic))
+        metrics_file.write(json.dumps(metric_dict))

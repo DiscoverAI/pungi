@@ -25,4 +25,8 @@ def test_main_play_mode(load, play):
 
 
 def test_main_play_mode_invalid_path():
-    assert -1 == run(["", "play"])
+    try:
+        run(["", "play"])
+        assert False
+    except FileNotFoundError:
+        pass
