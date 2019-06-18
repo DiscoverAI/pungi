@@ -1,9 +1,9 @@
-import importlib
+import random
 
 import numpy as np
-from pungi.qlearning import DIRECTIONS
-import random
+
 import pungi.config as conf
+from pungi.qlearning import DIRECTIONS
 
 
 def max_policy(q_values, episode_number):
