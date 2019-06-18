@@ -1,6 +1,6 @@
 from collections import defaultdict
 from unittest.mock import patch
-import pungi.qlearning as qlearning
+import pungi.agents.qlearning as qlearning
 
 
 # qtable [(left,right,up,down), ...]
@@ -61,7 +61,7 @@ def test_should_calculate_q_value_for_n_params():
                                      reward=-1)
 
 
-@patch('pungi.qlearning.q_value', return_value=42)
+@patch('pungi.agents.qlearning.q_value', return_value=42)
 def test_update_q_value(q_value_patch):
     test_q_table = defaultdict(lambda: 0)
     test_q_table[(0, 1), "up"] = 1.0
@@ -84,7 +84,7 @@ def test_update_q_value(q_value_patch):
                                      reward=-1)
 
 
-@patch('pungi.qlearning.q_value', return_value=42)
+@patch('pungi.agents.qlearning.q_value', return_value=42)
 def test_update_q_value_on_edge(q_value_patch):
     test_q_table = defaultdict(lambda: 0)
     test_q_table[(0, 0), "up"] = 1.0

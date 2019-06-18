@@ -5,7 +5,7 @@ from unittest.mock import patch, call
 import pungi.metrics as metrics
 
 
-@patch("pungi.ml_agent.play_in_background", side_effect=[
+@patch("pungi.agents.agent.play_in_background", side_effect=[
     10,
     22,
     -5

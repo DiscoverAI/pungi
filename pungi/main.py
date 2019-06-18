@@ -1,10 +1,11 @@
-import pungi.trainer as trainer
-import pungi.metrics as metrics
-import pungi.ml_agent as agent
-import pungi.persistence as persistence
-import time
-import sys
 import logging
+import sys
+import time
+
+import pungi.metrics as metrics
+import pungi.persistence as persistence
+import pungi.trainer as trainer
+from pungi.agents import agent
 
 logger = logging.getLogger(__name__)
 

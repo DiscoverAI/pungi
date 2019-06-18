@@ -1,7 +1,7 @@
-import pungi.qlearning as qlearning
+import pungi.agents.qlearning as qlearning
 import pungi.environment.backend as backend
 import pungi.config as conf
-import pungi.state as state
+import pungi.environment.state as state
 
 
 def reset():

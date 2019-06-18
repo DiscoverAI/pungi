@@ -1,7 +1,7 @@
 from unittest.mock import patch
 
 import pungi
-import pungi.state as state
+import pungi.environment.state as state
 import tests.mock_states
 
 
@@ -27,6 +27,6 @@ def test_get_head_and_food_state_from_game_info():
                                                                                    [0, 1, 0]]})
 
 
-@patch('pungi.state.globals', return_value={"mocked_state_extractor": tests.mock_states.mocked_state_extractor})
+@patch('pungi.environment.state.globals', return_value={"mocked_state_extractor": tests.mock_states.mocked_state_extractor})
 def test_load_policy(globals_mock):
-    assert tests.mock_states.mocked_state_extractor == pungi.state.get_state_extractor("mocked_state_extractor")
+    assert tests.mock_states.mocked_state_extractor == pungi.environment.state.get_state_extractor("mocked_state_extractor")
