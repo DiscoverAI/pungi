@@ -7,7 +7,7 @@ setuptools.setup(
     name="pungi",
     version="0.1.0",
     author="DiscoverAI",
-    description="Q-learning agent that is learning how to play snake.",
+    description="Reinforcement learning agents that learn how to play snake.",
     long_description=long_description,
     long_description_content_type="text/markdown",
     url="https://github.com/DiscoverAI/pungi",

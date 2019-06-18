@@ -5,7 +5,7 @@
 > The pungi (Hindi: पुंगी) \[...\] is a wind instrument played by snake charmers on the Indian subcontinent.
 > (from https://en.wikipedia.org/wiki/Pungi)
 
-Q-learning agent that learns how to play snake.
+A collection of reinforcement learning agents that learn how to play snake.
 
 ## Install Dependencies
 ```bash
