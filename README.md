@@ -2,17 +2,21 @@
 
 [![CircleCI](https://circleci.com/gh/DiscoverAI/pungi.svg?style=svg)](https://circleci.com/gh/DiscoverAI/pungi)
 
-Machine learning client for snake
 > The pungi (Hindi: पुंगी) \[...\] is a wind instrument played by snake charmers on the Indian subcontinent.
 > (from https://en.wikipedia.org/wiki/Pungi)
 
-## Install
+Q-learning agent that learns how to play snake.
 
-Run `pipenv install` to install dependencies from the Pipfile.
+## Install Dependencies
+```bash
+pipenv install
+```
+will install the production dependencies from the Pipfile.
 
-For use in intellij, select the created pungi virtualenv in
-Pycharm -> Preferences -> Project: pungi -> Project interpreter.
-
+```bash
+pipenv install --dev
+```
+will install all the dependencies including dev dependencies from the Pipfile.
 
 ## Run tests
 ```bash
