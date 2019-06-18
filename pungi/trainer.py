@@ -1,7 +1,7 @@
-import pungi.agents.qlearning as qlearning
+import pungi.agents.qlearning.qlearning as qlearning
 import pungi.environment.environment as environment
 import pungi.config as conf
-import pungi.agents.policies as policies
+import pungi.agents.qlearning.policies as policies
 
 
 def run_episode(q_table, policy):

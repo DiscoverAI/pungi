@@ -1,7 +1,7 @@
 import time
 import webbrowser
 
-from pungi.agents import policies, qlearning
+from pungi.agents.qlearning import policies, qlearning
 from pungi.config import CONF
 from pungi.environment import environment
 

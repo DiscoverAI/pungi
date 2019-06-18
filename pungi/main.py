@@ -5,7 +5,7 @@ import time
 import pungi.metrics as metrics
 import pungi.persistence as persistence
 import pungi.trainer as trainer
-from pungi.agents import agent
+from pungi.agents.qlearning import agent
 
 logger = logging.getLogger(__name__)
 

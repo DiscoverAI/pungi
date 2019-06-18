@@ -28,7 +28,7 @@ def test_reset(_globals_mock, get_game_info_mock, register_new_game_mock):
 
 
 @patch('pungi.environment.backend.make_move', return_value=game_over_game_state)
-@patch('pungi.agents.qlearning.get_reward', return_value=42)
+@patch('pungi.agents.qlearning.qlearning.get_reward', return_value=42)
 @patch('pungi.environment.state.globals', return_value={"mocked_state_extractor": tests.mock_states.mocked_state_extractor})
 def test_make_step_game_over(_globals, get_reward_mock, make_move_mock):
     reward, next_state, done, info = environment.step("up", "foo bar")
@@ -41,7 +41,7 @@ def test_make_step_game_over(_globals, get_reward_mock, make_move_mock):
 
 
 @patch('pungi.environment.backend.make_move', return_value=game_in_progress_game_state)
-@patch('pungi.agents.qlearning.get_reward', return_value=32)
+@patch('pungi.agents.qlearning.qlearning.get_reward', return_value=32)
 @patch('pungi.environment.state.globals', return_value={"mocked_state_extractor": tests.mock_states.mocked_state_extractor})
 def test_make_step(_globals, get_reward_mock, make_move_mock):
     reward, next_state, done, info = environment.step("left", "bar foo")

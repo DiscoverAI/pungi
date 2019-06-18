@@ -1,6 +1,6 @@
 import json
 
-from pungi.agents import agent
+from pungi.agents.qlearning import agent
 
 
 def get_average_cumulative_reward(episodes, q_table):

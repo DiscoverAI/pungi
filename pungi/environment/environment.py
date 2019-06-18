@@ -1,4 +1,4 @@
-import pungi.agents.qlearning as qlearning
+import pungi.agents.qlearning.qlearning as qlearning
 import pungi.environment.backend as backend
 import pungi.config as conf
 import pungi.environment.state as state

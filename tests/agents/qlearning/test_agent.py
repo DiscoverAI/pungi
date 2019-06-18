@@ -1,6 +1,6 @@
 from unittest.mock import patch, call, ANY
 
-from pungi.agents import agent
+from pungi.agents.qlearning import agent
 
 
 @patch("webbrowser.open_new")
@@ -9,7 +9,7 @@ from pungi.agents import agent
     (100, [2, 3], False, {"score": 11}),
     (-100, [1, 3], True, {"score": 11})
 ])
-@patch('pungi.agents.qlearning.next_move', return_value="left")
+@patch('pungi.agents.qlearning.qlearning.next_move', return_value="left")
 @patch('pungi.environment.environment.reset', return_value=("foobar", [4, 3]))
 def test_play_game(reset, next_move, step, open_webbrowser):
     agent.play_in_spectator_mode("trained_q_table")
@@ -26,7 +26,7 @@ def test_play_game(reset, next_move, step, open_webbrowser):
     (100, [2, 3], False, {"score": 11}),
     (-100, [1, 3], True, {"score": 11})
 ])
-@patch('pungi.agents.qlearning.next_move', return_value="left")
+@patch('pungi.agents.qlearning.qlearning.next_move', return_value="left")
 @patch('pungi.environment.environment.reset', return_value=("foobar", [4, 3]))
 def test_play_game(reset, next_move, step):
     reward_sum = agent.play_in_background("trained_q_table")

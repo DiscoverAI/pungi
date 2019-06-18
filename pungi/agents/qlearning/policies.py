@@ -3,7 +3,7 @@ import random
 import numpy as np
 
 import pungi.config as conf
-from pungi.agents.qlearning import DIRECTIONS
+from pungi.agents.qlearning.qlearning import DIRECTIONS
 
 
 def max_policy(q_values, episode_number):
