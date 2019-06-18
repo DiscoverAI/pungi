@@ -1,6 +1,5 @@
 import json
 import os
-import importlib
 
 
 def _load(config_file="/resources/default-config.json"):
