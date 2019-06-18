@@ -1,9 +1,16 @@
 from collections import defaultdict
 from unittest.mock import patch
+
 import pungi.agents.qlearning.qlearning as qlearning
 
 
-# qtable [(left,right,up,down), ...]
+def test_should_initialize_q_table_with_n():
+    actual = qlearning.initialize_q_table(initial_value=42)
+    expected = 42
+
+    assert expected == actual[(0, 0), "left"]
+    assert expected == actual[(0, 1), "right"]
+
 
 def test_get_left_as_next_move(mocker):
     q_table = {((0, 0), "left"): -1,
@@ -36,13 +43,6 @@ def test_reward():
         {"game-over": False, "score": 1, "board": [], "ate-food": True})
     assert -2 == qlearning.get_reward(
         {"game-over": True, "score": 1, "board": [], "ate-food": False})
-
-
-def test_initialize_q_table():
-    sparse_data_structure = qlearning.initialize_q_table(initial_value=42)
-    assert sparse_data_structure[(0, 0), "left"] == 42
-    sparse_data_structure[(0, 0), "left"] = 0
-    assert sparse_data_structure[(0, 0), "left"] == 0
 
 
 def test_should_calculate_zero_for_zero_learning_rate():
@@ -113,4 +113,3 @@ def test_get_next_state():
     assert (0, 0) == qlearning.get_next_state((1, 0), "right", 2, 2)
     assert (19, 0) == qlearning.get_next_state((0, 0), "left", 20, 20)
     assert (0, 0) == qlearning.get_next_state((0, 19), "down", 20, 20)
-
