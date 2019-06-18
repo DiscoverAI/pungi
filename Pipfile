@@ -6,10 +6,12 @@ name = "pypi"
 [packages]
 requests = "*"
 numpy = "*"
+pungi = {editable = false,path = "."}
 
 [dev-packages]
 pytest = "*"
 pytest-mock = "*"
+pungi = {editable = true,path = "."}
 
 [requires]
 python_version = "3.6"
