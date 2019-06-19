@@ -22,3 +22,8 @@ will install all the dependencies including dev dependencies from the Pipfile.
 ```bash
 pipenv run pytest
 ```
+
+## Train the agent
+```bash
+pipenv run pungi/main.py train
+```
