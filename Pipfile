@@ -6,7 +6,8 @@ name = "pypi"
 [packages]
 requests = "*"
 numpy = "*"
-pungi = {editable = false,path = "."}
+pungi = {editable = true,path = "."}
+gym = "*"
 
 [dev-packages]
 pytest = "*"
