@@ -13,8 +13,5 @@
   "snake_moved_reward": 32,
   "game_over_reward": 42,
   "gym_environment": "snake-v1",
-  "policy_module": "tests.mock_policies",
-  "policy": "mock_policy",
-  "state_extractor_module": "tests.mock_states",
-  "state_extractor_function": "mocked_state_extractor"
+  "policy": "mock_policy"
 }
