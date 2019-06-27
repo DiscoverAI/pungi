@@ -13,5 +13,5 @@
   "snake_moved_reward": -1,
   "game_over_reward": -2,
   "gym_environment": "snake-v1",
-  "policy": "epsilon_greedy_max_policy",
+  "policy": "epsilon_greedy_max_policy"
 }
