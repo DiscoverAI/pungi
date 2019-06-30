@@ -11,6 +11,7 @@ def get_head_state_from_game_info(game_info):
     itemindex_head = np.where(board == CODE_SNAKE_HEAD)
     return itemindex_head[1][0], itemindex_head[0][0]
 
+
 def extract_head_and_food(board):
     itemindex_head = np.where(board == CODE_SNAKE_HEAD)
     itemindex_food = np.where(board == CODE_FOOD)

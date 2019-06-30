@@ -53,8 +53,8 @@ class SnakeEnv(gym.Env):
         else:
             return float(conf.CONF.get_value("snake_moved_reward"))
 
-class PartialInformationSnakeEnv(SnakeEnv):
 
+class PartialInformationSnakeEnv(SnakeEnv):
     def step(self, action):
         state, reward, done, info = super().step(action)
         return state.extract_head_and_food(state), reward, done, info
