@@ -1,15 +1,16 @@
 import time
 import webbrowser
+import logging
 
 from pungi.agents.qlearning import policies, qlearning
 from pungi.config import CONF
 from pungi.environment import environment
-import logging
+
 
 logger = logging.getLogger(__name__)
 
 
-def play_game(q_table, on_before, on_step):
+def play_game(q_table, on_before, on_step, environment):
     game_id, state = environment.reset()
     game_over = False
     policy = policies.get_policy(policy_name="max_policy")
@@ -17,7 +18,7 @@ def play_game(q_table, on_before, on_step):
     total_reward = 0
     while not game_over:
         next_action = qlearning.next_move(q_table, state, lambda q_values: policy(q_values, None))
-        reward, state, game_over, info = environment.step(next_action, game_id)
+        reward, state, game_over, info = environment.step(next_action)
         total_reward = total_reward + reward
         on_step()
     return total_reward
@@ -35,7 +36,7 @@ def play_in_spectator_mode(q_table):
                      on_step=lambda: time.sleep(0.5))
 
 
-def play_in_background(q_table):
+def play_in_background(q_table, environment):
     return play_game(q_table,
                      on_before=lambda game_id: None,
-                     on_step=lambda: None)
+                     on_step=lambda: None, environment=environment)
