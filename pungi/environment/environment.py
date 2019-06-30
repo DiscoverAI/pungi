@@ -56,8 +56,8 @@ class SnakeEnv(gym.Env):
 
 class PartialInformationSnakeEnv(SnakeEnv):
     def step(self, action):
-        state, reward, done, info = super().step(action)
-        return state.extract_head_and_food(state), reward, done, info
+        next_state, reward, done, info = super().step(action)
+        return np.array(state.extract_head_and_food(next_state)), reward, done, info
 
     def reset(self):
-        return state.extract_head_and_food(super().reset())
+        return np.array(state.extract_head_and_food(super().reset()))

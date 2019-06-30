@@ -12,6 +12,6 @@
   "ate_food_reward": 1000,
   "snake_moved_reward": -1,
   "game_over_reward": -2,
-  "gym_environment": "snake-v1",
+  "gym_environment": "snake-partial-info-v1",
   "policy": "epsilon_greedy_max_policy"
 }

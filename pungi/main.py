@@ -1,14 +1,16 @@
-# !/usr/bin/env python3
+#!/usr/bin/env python3
 import logging
 import sys
 import time
 
+import gym
+
+import pungi.agents.qlearning.trainer as trainer
+import pungi.config as conf
 import pungi.metrics as metrics
 import pungi.persistence as persistence
-import pungi.trainer as trainer
+import pungi.environment
 from pungi.agents.qlearning import agent
-import gym
-import pungi.config as conf
 
 logger = logging.getLogger(__name__)
 

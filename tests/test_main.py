@@ -8,7 +8,7 @@ def test_main_incorrect_mode():
 
 
 @patch('time.time', return_value=123456)
-@patch('pungi.trainer.train', return_value="mock_q_table")
+@patch('pungi.agents.qlearning.trainer.train', return_value="mock_q_table")
 @patch('pungi.persistence.save')
 def test_main_train_mode(save, train, _):
     run(["", "train"])

@@ -1,8 +1,10 @@
 from unittest.mock import patch, ANY, call
-import pungi.trainer as trainer
-import tests.mock_policies
+
 import gym
 import numpy as np
+
+import pungi.agents.qlearning.trainer as trainer
+import tests.mock_policies
 
 
 class MockEnvironment(gym.Env):
@@ -11,15 +13,15 @@ class MockEnvironment(gym.Env):
 
     def step(self, action):
         result = [
-            (-1, np.array([0, 1]), False, {"score": 10}),
-            (-1, np.array([0, 2]), False, {"score": 10}),
-            (-100, np.array([0, 3]), True, {"score": 10})
+            (np.array([0, 1]), -1, False, {"score": 10}),
+            (np.array([0, 2]), -1, False, {"score": 10}),
+            (np.array([0, 3]), 100, True, {"score": 10})
         ][self.steps]
         self.steps += 1
         return result
 
     def reset(self):
-        return "foo bar", np.array([0, 0])
+        return np.array([0, 0])
 
 
 @patch('pungi.agents.qlearning.qlearning.update_q_value', return_value="updated_q_table")
@@ -35,14 +37,15 @@ def test_run_episode(next_move_mock, update_q_value_mock):
     update_q_value_mock.assert_has_calls([
         call("initial_q_table", ANY, 'down', ANY, 0.9, 0.99, -1),
         call('updated_q_table', ANY, 'down', ANY, 0.9, 0.99, -1),
-        call('updated_q_table', ANY, 'down', ANY, 0.9, 0.99, -100)])
+        call('updated_q_table', ANY, 'down', ANY, 0.9, 0.99, 100)])
     next_move_mock.assert_has_calls([call("initial_q_table", ANY, some_policy),
                                      call("updated_q_table", ANY, some_policy),
                                      call("updated_q_table", ANY, some_policy)])
 
 
 @patch('pungi.agents.qlearning.qlearning.initialize_q_table', return_value="initial_table")
-@patch('pungi.trainer.run_episode', side_effect=["updated-table-1", "updated-table-2", "updated-table-3"])
+@patch('pungi.agents.qlearning.trainer.run_episode',
+       side_effect=["updated-table-1", "updated-table-2", "updated-table-3"])
 @patch('pungi.agents.qlearning.policies.globals', return_value={"mock_policy": tests.mock_policies.mock_policy})
 def test_train(_globals_mock, run_episode_mock, init_q_table_mock):
     env = MockEnvironment()

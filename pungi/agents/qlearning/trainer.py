@@ -3,7 +3,6 @@ import logging
 import pungi.agents.qlearning.policies as policies
 import pungi.agents.qlearning.qlearning as qlearning
 import pungi.config as conf
-import gym
 
 logger = logging.getLogger(__name__)
 
@@ -11,12 +10,13 @@ logger = logging.getLogger(__name__)
 def run_episode(q_table, policy, environment):
     learning_rate = float(conf.CONF.get_value("learning_rate"))
     discount_factor = float(conf.CONF.get_value("discount_factor"))
-    game_id, state = environment.reset()
+    state = tuple(environment.reset())
     game_over = False
     last_game_info = None
     while not game_over:
         next_action = qlearning.next_move(q_table, state, policy)
-        reward, next_state, game_over, info = environment.step(next_action)
+        next_state, reward, game_over, info = environment.step(next_action)
+        next_state = tuple(next_state)
         logger.debug('Game info: %s', info)
         q_table = qlearning.update_q_value(q_table,
                                            state,
