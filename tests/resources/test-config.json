@@ -10,4 +10,6 @@
   "initial_epsilon_greedy": 0.5,
   "epsilon_factor_per_episode": 0.9,
   "policy": "mock_policy",
+   "state_extractor_module": "tests.mock_states",
+  "state_extractor_function": "mocked_state_extractor"
 }
