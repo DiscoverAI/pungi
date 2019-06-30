@@ -4,6 +4,9 @@ import webbrowser
 from pungi.agents.qlearning import policies, qlearning
 from pungi.config import CONF
 from pungi.environment import environment
+import logging
+
+logger = logging.getLogger(__name__)
 
 
 def play_game(q_table, on_before, on_step):
@@ -20,10 +23,15 @@ def play_game(q_table, on_before, on_step):
     return total_reward
 
 
+def initialize_spectator_mode(game_id):
+    spectate_url = CONF.get_value("backend") + '/?spectate-game-id=' + game_id
+    logger.info("Playing game, you can spectate it at: {}".format(spectate_url))
+    webbrowser.open_new(spectate_url)
+
+
 def play_in_spectator_mode(q_table):
     return play_game(q_table,
-                     on_before=lambda game_id: webbrowser.open_new(
-                         CONF.get_value("backend") + '/?spectate-game-id=' + game_id),
+                     on_before=initialize_spectator_mode,
                      on_step=lambda: time.sleep(0.5))
 
 

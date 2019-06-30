@@ -1,0 +1,33 @@
+containers:
+  build-env:
+    image: falcowinkler/pungi:0.1
+    #uncomment the following to rebuild pungi in docker every time locally
+    #build_directory: .
+    volumes:
+      - local: .
+        container: /opt/pungi
+        options: cached
+    working_directory: /opt/pungi
+    environment:
+      BACKEND: http://snake-backend:8080
+  snake-backend:
+    ports:
+      - local: 8080
+        container: 8080
+    # if needed, build your own version of https://github.com/DiscoverAI/snake
+    image: falcowinkler/snake:1.0
+
+tasks:
+  test:
+    description: Run the unit tests.
+    run:
+      container: build-env
+      command: pipenv run pytest
+
+  run:
+    description: Runs the app.
+    run:
+      container: build-env
+      command: pipenv run pungi/main.py
+    dependencies:
+      - snake-backend
