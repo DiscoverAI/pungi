@@ -4,11 +4,8 @@ import logging
 
 from pungi.agents.qlearning import policies, qlearning
 from pungi.config import CONF
-from pungi.environment import environment
-
 
 logger = logging.getLogger(__name__)
-
 
 def play_game(q_table, on_before, on_step, environment):
     game_id, state = environment.reset()
