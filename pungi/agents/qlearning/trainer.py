@@ -33,15 +33,13 @@ def run_episode(q_table, policy, environment):
 
 def train(env):
     logger.info('Starting training')
-    episodes = 0
     q_table_initial_value = float(conf.CONF.get_value("q_table_initial_value"))
     q_table = qlearning.initialize_q_table(initial_value=q_table_initial_value)
     policy = policies.get_policy(policy_name=conf.CONF.get_value("policy"))
     total_episodes = int(conf.CONF.get_value("episodes"))
-    while episodes < total_episodes:
-        logger.info('Starting new episode %s/%s', episodes, total_episodes)
-        q_table = run_episode(q_table, lambda q_values: policy(q_values, episodes), env)
-        logger.info('Done with episode %s/%s', episodes, total_episodes)
-        episodes += 1
+    for episode in range(total_episodes):
+        logger.info('Starting new episode %s/%s', episode, total_episodes)
+        q_table = run_episode(q_table, lambda q_values: policy(q_values, episode), env)
+        logger.info('Done with episode %s/%s', episode, total_episodes)
     logger.info('Done with training')
     return q_table
