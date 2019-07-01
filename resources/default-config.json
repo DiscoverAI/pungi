@@ -9,7 +9,9 @@
   "q_table_initial_value": 5,
   "initial_epsilon_greedy": 0.8,
   "epsilon_factor_per_episode": 0.999,
-  "policy": "epsilon_greedy_max_policy",
-  "state_extractor_module": "pungi.state",
-  "state_extractor_function": "get_head_and_food_state_from_game_info"
+  "ate_food_reward": 1000,
+  "snake_moved_reward": -1,
+  "game_over_reward": -2,
+  "gym_environment": "snake-partial-info-v1",
+  "policy": "epsilon_greedy_max_policy"
 }
