@@ -7,6 +7,9 @@ from pungi.config import CONF
 
 logger = logging.getLogger(__name__)
 
+
+
+
 def play_game(q_table, on_before, on_step, environment):
     game_id, state = environment.reset()
     game_over = False
