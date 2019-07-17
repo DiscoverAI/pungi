@@ -8,6 +8,7 @@ import gym
 class MockEnvironment(gym.Env):
     def __init__(self):
         self.steps = 0
+        self.current_game_id = 10
 
     def step(self, action):
         result = [
