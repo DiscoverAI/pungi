@@ -4,7 +4,7 @@ from collections import deque
 
 
 class DQLAgent(Agent):
-    def next_action(self, state, reward):
+    def next_action(self, state):
         pass
 
     def __init__(self):

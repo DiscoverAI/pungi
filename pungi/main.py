@@ -10,7 +10,7 @@ import pungi.config as conf
 import pungi.metrics as metrics
 import pungi.persistence as persistence
 import pungi.environment
-from pungi.agents.qlearning import agent
+from pungi.agents.qlearning import greedy_policy_agent as agent
 
 logger = logging.getLogger(__name__)
 

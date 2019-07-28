@@ -4,7 +4,20 @@ import gym
 import numpy as np
 
 import pungi.agents.qlearning.trainer as trainer
-import tests.mock_policies
+import pungi.agents.agent as agent
+
+
+class MockAgent(agent.Agent):
+    def __init__(self):
+        self.next_action_calls = []
+        self.update_calls = []
+
+    def next_action(self, *args):
+        self.next_action_calls.append(args)
+        return "foo"
+
+    def update(self, *args):
+        self.update_calls.append(args)
 
 
 class MockEnvironment(gym.Env):
@@ -24,34 +37,24 @@ class MockEnvironment(gym.Env):
         return np.array([0, 0])
 
 
-@patch('pungi.agents.qlearning.qlearning.update_q_value', return_value="updated_q_table")
-@patch('pungi.agents.qlearning.qlearning.next_move', return_value="down")
-def test_run_episode(next_move_mock, update_q_value_mock):
-    initial_q_table = "initial_q_table"
-
-    some_policy = lambda q_values: q_values["up"]
-
+def test_run_episode():
     env = MockEnvironment()
+    agent = MockAgent()
+    trainer.run_episode(agent, env)
+    assert agent.next_action_calls == \
+           [((0, 0),), ((0, 1),), ((0, 2),)]
+    assert agent.update_calls == \
+           [((0, 0), 'foo', (0, 1), -1),
+            ((0, 1), 'foo', (0, 2), -1),
+            ((0, 2), 'foo', (0, 3), 100)]
 
-    trainer.run_episode(initial_q_table, some_policy, env)
-    update_q_value_mock.assert_has_calls([
-        call("initial_q_table", ANY, 'down', ANY, 0.9, 0.99, -1),
-        call('updated_q_table', ANY, 'down', ANY, 0.9, 0.99, -1),
-        call('updated_q_table', ANY, 'down', ANY, 0.9, 0.99, 100)])
-    next_move_mock.assert_has_calls([call("initial_q_table", ANY, some_policy),
-                                     call("updated_q_table", ANY, some_policy),
-                                     call("updated_q_table", ANY, some_policy)])
 
-
-@patch('pungi.agents.qlearning.qlearning.initialize_q_table', return_value="initial_table")
 @patch('pungi.agents.qlearning.trainer.run_episode',
        side_effect=["updated-table-1", "updated-table-2", "updated-table-3"])
-@patch('pungi.agents.qlearning.policies.globals', return_value={"mock_policy": tests.mock_policies.mock_policy})
-def test_train(_globals_mock, run_episode_mock, init_q_table_mock):
+def test_train(run_episode_mock):
     env = MockEnvironment()
-    training_result = trainer.train(env)
-    assert training_result == "updated-table-3"
-    init_q_table_mock.assert_called_once_with(initial_value=0)
-    run_episode_mock.assert_has_calls([call("initial_table", ANY, env),
-                                       call("updated-table-1", ANY, env),
-                                       call("updated-table-2", ANY, env)])
+    agent = MockAgent()
+    trainer.train(agent, env)
+    run_episode_mock.assert_has_calls([call(agent, env),
+                                       call(agent, env),
+                                       call(agent, env)])

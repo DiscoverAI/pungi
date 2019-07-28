@@ -16,7 +16,7 @@ def test_main_train_mode(save, train, _):
     save.assert_called_once_with("mock_q_table", "./out/model-123456.pkl")
 
 
-@patch('pungi.agents.qlearning.agent.play_in_spectator_mode')
+@patch('pungi.agents.qlearning.greedy_policy_agent.play_in_spectator_mode')
 @patch('pungi.persistence.load', return_value="mock_q_table")
 def test_main_play_mode(load, play):
     run(["", "play", "my-path/model.pkl"])

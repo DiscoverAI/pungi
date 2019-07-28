@@ -1,42 +1,25 @@
-import time
-import webbrowser
-import logging
-
-from pungi.agents.qlearning import policies, qlearning
-from pungi.config import CONF
-
-logger = logging.getLogger(__name__)
+from pungi.agents.agent import Agent
+import pungi.config as conf
+from pungi.agents.qlearning import qlearning
+import pungi.agents.qlearning.policies as policies
 
 
-def play_game(q_table, on_before, on_step, environment):
-    state = tuple(environment.reset())
-    game_over = False
-    policy = policies.get_policy(policy_name="max_policy")
-    on_before(environment.current_game_id)
-    total_reward = 0
-    while not game_over:
-        next_action = qlearning.next_move(q_table, state, lambda q_values: policy(q_values, None))
-        reward, state, game_over, info = environment.step(next_action)
-        total_reward = total_reward + reward
-        on_step()
-    return total_reward
+class QLearningAgent(Agent):
+    def __init__(self):
+        q_table_initial_value = float(conf.CONF.get_value("q_table_initial_value"))
+        self.q_table = qlearning.initialize_q_table(initial_value=q_table_initial_value)
+        self.policy = policies.get_policy(policy_name=conf.CONF.get_value("policy"))
+        self.learning_rate = float(conf.CONF.get_value("learning_rate"))
+        self.discount_factor = float(conf.CONF.get_value("discount_factor"))
 
+    def next_action(self, state):
+        return qlearning.next_move(self.q_table, state, self.policy)
 
-def initialize_spectator_mode(game_id):
-    spectate_url = CONF.get_value("backend") + '/?spectate-game-id=' + game_id
-    logger.info("Playing game, you can spectate it at: {}".format(spectate_url))
-    webbrowser.open_new(spectate_url)
-
-
-def play_in_spectator_mode(q_table, environment):
-    return play_game(q_table,
-                     on_before=initialize_spectator_mode,
-                     on_step=lambda: time.sleep(0.5),
-                     environment=environment)
-
-
-def play_in_background(q_table, environment):
-    return play_game(q_table,
-                     on_before=lambda game_id: None,
-                     on_step=lambda: None,
-                     environment=environment)
+    def update(self, state, action, next_state, reward):
+        self.q_table = qlearning.update_q_value(self.q_table,
+                                                state,
+                                                action,
+                                                next_state,
+                                                self.learning_rate,
+                                                self.discount_factor,
+                                                reward)

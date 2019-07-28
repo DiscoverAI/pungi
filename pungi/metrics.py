@@ -1,6 +1,6 @@
 import json
 
-from pungi.agents.qlearning import agent
+from pungi.agents.qlearning import greedy_policy_agent as agent
 
 
 def get_average_cumulative_reward(episodes, q_table):
