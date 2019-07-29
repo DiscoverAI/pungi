@@ -4,7 +4,7 @@ from collections import deque
 
 
 class DQLAgent(Agent):
-    def __init__(self, configuration=None):
+    def __init__(self, configuration):
         self.configuration = configuration
         self.replay_memory = None
         self.init_replay_memory(configuration['replay_memory_limit'])

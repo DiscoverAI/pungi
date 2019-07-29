@@ -1,11 +1,12 @@
 from unittest.mock import patch, ANY
 import pungi.agents.dql.dql_agent as dql_agent
 import numpy as np
-import collections
+
+mock_config = {'replay_memory_limit': 10}
 
 
 def test_agent_experience_replay_single_step():
-    agent = dql_agent.DQLAgent()
+    agent = dql_agent.DQLAgent(mock_config)
     state = np.array([0, 1])
     action = "left"
     reward = -1
@@ -21,7 +22,7 @@ memory_entry2 = np.array([1, 0]), "right", 50, np.array([0, 1])
 
 @patch("random.sample", return_value=[memory_entry1, memory_entry2])
 def test_agent_experience_replay_two_steps(sample_mock):
-    agent = dql_agent.DQLAgent()
+    agent = dql_agent.DQLAgent(mock_config)
     agent.update(*memory_entry1)
     agent.update(*memory_entry2)
     assert agent.sample_memory(2) == [memory_entry1, memory_entry2]
@@ -30,7 +31,7 @@ def test_agent_experience_replay_two_steps(sample_mock):
 
 @patch("random.sample", return_value=[memory_entry1, memory_entry2])
 def test_agent_experience_replay_four_steps(sample_mock):
-    agent = dql_agent.DQLAgent()
+    agent = dql_agent.DQLAgent(mock_config)
     agent.update(*memory_entry1)
     agent.update(*memory_entry2)
     assert agent.sample_memory(64) == [memory_entry1, memory_entry2]
