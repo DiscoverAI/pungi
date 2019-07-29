@@ -1,5 +1,5 @@
 import pungi.agents.qlearning.agent as qlearning_agent
-from unittest.mock import patch, ANY, call
+from unittest.mock import patch, ANY
 
 
 @patch("pungi.agents.qlearning.policies.get_policy", return_value="mock_policy")
@@ -17,9 +17,9 @@ def test_agent(update_q_table_mock, next_move_mock, init_q_table_mock, get_polic
     state = (0, 0)
     next_state = (0, 1)
     reward = -1
-    next_action = agent.next_action(state)
+    next_action = agent.next_action(state, episode_number=42)
     assert next_action == "mock_move"
-    next_move_mock.assert_called_once_with(agent.q_table, state, agent.policy)
+    next_move_mock.assert_called_once_with(agent.q_table, state, ANY)
     agent.update(state, next_action, next_state, reward)
     update_q_table_mock.assert_called_once_with("mock_initial_q",
                                                 state,

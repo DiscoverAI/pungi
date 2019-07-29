@@ -1,16 +1,17 @@
 from unittest.mock import patch
 
 from pungi.main import run
-
+import tests.mock_policies
 
 def test_main_incorrect_mode():
     assert -1 == run(["", "fly"])
 
 
 @patch('time.time', return_value=123456)
-@patch('pungi.agents.qlearning.trainer.train', return_value="mock_q_table")
+@patch('pungi.agents.trainer.train', return_value="mock_q_table")
 @patch('pungi.persistence.save')
-def test_main_train_mode(save, train, _):
+@patch('pungi.agents.qlearning.policies.globals', return_value={"mock_policy": tests.mock_policies.mock_policy})
+def test_main_train_mode(_policy, save, train, _time):
     run(["", "train"])
     train.assert_called_once()
     save.assert_called_once_with("mock_q_table", "./out/model-123456.pkl")

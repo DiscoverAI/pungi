@@ -1,10 +1,9 @@
-from unittest.mock import patch, ANY, call
+from unittest.mock import patch, call
 
 import gym
 import numpy as np
-
-import pungi.agents.qlearning.trainer as trainer
 import pungi.agents.agent as agent
+import pungi.agents.trainer as trainer
 
 
 class MockAgent(agent.Agent):
@@ -40,21 +39,21 @@ class MockEnvironment(gym.Env):
 def test_run_episode():
     env = MockEnvironment()
     agent = MockAgent()
-    trainer.run_episode(agent, env)
+    trainer.run_episode(agent, env, episode_number=42)
     assert agent.next_action_calls == \
-           [((0, 0),), ((0, 1),), ((0, 2),)]
+           [((0, 0), 42), ((0, 1), 42), ((0, 2), 42)]
     assert agent.update_calls == \
            [((0, 0), 'foo', (0, 1), -1),
             ((0, 1), 'foo', (0, 2), -1),
             ((0, 2), 'foo', (0, 3), 100)]
 
 
-@patch('pungi.agents.qlearning.trainer.run_episode',
+@patch('pungi.agents.trainer.run_episode',
        side_effect=["updated-table-1", "updated-table-2", "updated-table-3"])
 def test_train(run_episode_mock):
     env = MockEnvironment()
     agent = MockAgent()
     trainer.train(agent, env)
-    run_episode_mock.assert_has_calls([call(agent, env),
-                                       call(agent, env),
-                                       call(agent, env)])
+    run_episode_mock.assert_has_calls([call(agent, env, 0),
+                                       call(agent, env, 1),
+                                       call(agent, env, 2)])

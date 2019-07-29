@@ -5,12 +5,12 @@ import pungi.config as conf
 logger = logging.getLogger(__name__)
 
 
-def run_episode(agent, environment):
+def run_episode(agent, environment, episode_number):
     state = tuple(environment.reset())
     game_over = False
     last_game_info = None
     while not game_over:
-        action = agent.next_action(state)
+        action = agent.next_action(state, episode_number)
         next_state, reward, game_over, info = environment.step(action)
         next_state = tuple(next_state)
         logger.debug('Game info: %s', info)
@@ -25,7 +25,7 @@ def train(agent, env):
     total_episodes = int(conf.CONF.get_value("episodes"))
     for episode in range(total_episodes):
         logger.info('Starting new episode %s/%s', episode, total_episodes)
-        run_episode(agent, env)
+        run_episode(agent, env, episode)
         logger.info('Done with episode %s/%s', episode, total_episodes)
     logger.info('Done with training')
     return agent

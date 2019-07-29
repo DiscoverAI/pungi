@@ -12,8 +12,8 @@ class QLearningAgent(Agent):
         self.learning_rate = float(conf.CONF.get_value("learning_rate"))
         self.discount_factor = float(conf.CONF.get_value("discount_factor"))
 
-    def next_action(self, state):
-        return qlearning.next_move(self.q_table, state, self.policy)
+    def next_action(self, state, episode_number):
+        return qlearning.next_move(self.q_table, state, lambda q_values: self.policy(q_values, episode_number))
 
     def update(self, state, action, next_state, reward):
         self.q_table = qlearning.update_q_value(self.q_table,
