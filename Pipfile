@@ -9,6 +9,7 @@ numpy = "*"
 pungi = {editable = true,path = "."}
 gym = "*"
 tensorflow = "*"
+keras = "*"
 
 [dev-packages]
 pytest = "*"
