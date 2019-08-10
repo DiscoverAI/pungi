@@ -1,0 +1,35 @@
+[
+  {
+    "class_name": "Conv2D",
+    "config": {
+      "trainable": true,
+      "batch_input_shape": [
+        null,
+        10,
+        10,
+        1
+      ],
+      "filters": 8,
+      "kernel_size": [
+        2,
+        2
+      ],
+      "strides": [
+        2,
+        2
+      ],
+      "activation": "relu"
+    }
+  },
+  {
+    "class_name": "Flatten",
+    "config": {}
+  },
+  {
+    "class_name": "Dense",
+    "config": {
+      "units": 4,
+      "activation": "linear"
+    }
+  }
+]

@@ -1,0 +1,20 @@
+[
+  {
+    "class_name": "Dense",
+    "config": {
+      "batch_input_shape": [
+        null,
+        5
+      ],
+      "units": 3,
+      "activation": "relu"
+    }
+  },
+  {
+    "class_name": "Dense",
+    "config": {
+      "units": 1,
+      "activation": "relu"
+    }
+  }
+]
