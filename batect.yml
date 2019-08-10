@@ -1,6 +1,6 @@
 containers:
   build-env:
-    image: falcowinkler/pungi:0.1
+    image: falcowinkler/pungi:0.1.0
     #uncomment the following to rebuild pungi in docker every time locally
     #build_directory: .
     volumes:

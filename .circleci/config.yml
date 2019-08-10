@@ -2,26 +2,26 @@ version: 2
 jobs:
   build:
     docker:
-    - image: circleci/python:3.6.8
+      - image: circleci/python:3.6.8
 
     working_directory: ~/repo
 
     steps:
-    - checkout
+      - checkout
 
-    - restore_cache:
-        keys:
-        - cache-{{ checksum "Pipfile.lock" }}
-        - cache-
-    - run:
-        name: Install dependencies
-        command: pipenv sync --dev
-    - save_cache:
-        key: cache-{{ checksum "Pipfile.lock" }}
-        paths:
-        - ~/.local
-        - ~/.cache
+      - restore_cache:
+          keys:
+            - cache-{{ checksum "Pipfile.lock" }}
+            - cache-
+      - run:
+          name: Install dependencies
+          command: pipenv sync --dev
+      - save_cache:
+          key: cache-{{ checksum "Pipfile.lock" }}
+          paths:
+            - ~/.local
+            - ~/.cache
 
-    - run:
-        name: run tests
-        command: pipenv run pytest
+      - run:
+          name: run tests
+          command: pipenv run pytest
