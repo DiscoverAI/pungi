@@ -10,7 +10,7 @@ def test_main_incorrect_mode():
 @patch('time.time', return_value=123456)
 @patch('pungi.agents.trainer.train', return_value="mock_q_table")
 @patch('pungi.persistence.save')
-@patch('pungi.agents.qlearning.policies.globals', return_value={"mock_policy": tests.mock_policies.mock_policy})
+@patch('pungi.agents.policies.globals', return_value={"mock_policy": tests.mock_policies.mock_policy})
 def test_main_train_mode(_policy, save, train, _time):
     run(["", "train"])
     train.assert_called_once()

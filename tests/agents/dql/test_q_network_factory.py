@@ -1,5 +1,5 @@
 import json
-import pungi.agents.dql.q_network_factory as factory
+import pungi.agents.q_network_factory as factory
 
 
 def test_load_simple_model():

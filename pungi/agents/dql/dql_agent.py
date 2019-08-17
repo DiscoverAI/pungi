@@ -1,26 +1,27 @@
 from pungi.agents.agent import Agent
 import random
 from collections import deque
+import pungi.agents.policies as policies
+from pungi.agents.qlearning.qlearning import DIRECTIONS
 
 
 class DQLAgent(Agent):
 
-    def __init__(self, configuration):
+    def __init__(self, configuration, q_network):
         self.configuration = configuration
         self.replay_memory = None
-        self.q_network = None
         self.init_replay_memory(configuration['replay_memory_limit'])
-
-    def load_neural_network_model(self, model_file_name, optimizer):
-        pass
+        self.q_network = q_network
 
     def init_replay_memory(self, limit):
         self.replay_memory = deque(maxlen=limit)
 
     def next_action(self, state, episode_number):
-        # calculate epsilon based on episode number
-        # with probability epsilon select random action
-        # otherwise run inference on neural network, and pick action with argmax
+        # this method has failing tests! TODO:
+        # 1. get the prediction from self.q_network
+        # 2. label them accordingly in order of DIRECTIONS array
+        # e.g. {"left": 0.0, "right": 0.1, etc.}
+        # 3. call policies.epsilon_greedy_max_policy
         pass
 
     def update(self, state, action, nextstate, reward):
