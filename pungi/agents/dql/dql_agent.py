@@ -21,6 +21,9 @@ class DQLAgent(Agent):
         self.replay_memory = deque(maxlen=limit)
 
     def next_action(self, state, episode_number):
+        prediction = self.q_network.predict(state)[0]
+        q_values = {k: v for k, v in zip(DIRECTIONS, prediction)}
+        return policies.epsilon_greedy_max_policy(q_values, episode_number)
         # 1. get the prediction from self.q_network
         # 2. label them accordingly in order of DIRECTIONS array
         # e.g. {"left": 0.0, "right": 0.1, etc.}
@@ -52,4 +55,3 @@ class DQLAgent(Agent):
     def sample_memory(self, sample_size):
         min_sample_size = min(sample_size, len(self.replay_memory))
         return random.sample(self.replay_memory, min_sample_size)
-
