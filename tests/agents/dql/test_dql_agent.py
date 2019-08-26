@@ -91,9 +91,12 @@ def test_get_q_update():
                                             rel=1e-12)
 
 
-def test_gradient_step():
+def test_build_examples():
     mock_state = np.array([[0, 1], [2, 2]])
+    mock_next_state = np.array([[0, 1], [2, 3]])
+    mock_reward = 42
     mock_action = 1  # -> right, second item in prediction array
+    game_over = False
     q_update = 1.234
 
     class MockQNetworkGradientStep:
@@ -114,28 +117,45 @@ def test_gradient_step():
 
     mock_network = MockQNetworkGradientStep()
     agent = dql_agent.DQLAgent(mock_config, mock_network)
-    agent.gradient_step(q_update, mock_state, mock_action)
+    agent.get_q_update = lambda *args: q_update
+
+    input, expected_output = agent.build_training_examples(
+        [(mock_state, mock_action, mock_reward, mock_next_state, game_over)])
+    assert input == [mock_state]
+    assert expected_output == [[1.0,
+                                q_update,  # we picked this action
+                                -1.0,
+                                -1.5]]
 
 
 def test_memory_replay(mocker):
-    mock_network = MockQNetwork()
-    agent = dql_agent.DQLAgent(mock_config, mock_network)
-
-    state = np.array([[0, 1], [1, 3]])
+    mock_state = np.array([[0, 1], [1, 3]])
     action = 1
     next_state = np.array([[1, 1], [0, 3]])
     reward = 10
+    game_over = False
+    q_update = 42
+
+    class MockQNetworkGradientStep:
+        def predict(self, state):
+            assert (state == mock_state).all()
+            return [[1.0, 2.0, -1.0, -1.5]]
+
+        def fit(self, states, q_values, verbose):
+            assert (states[0] == mock_state).all()
+            assert q_values[0][action] == q_update
+            assert q_values[0][0] == 1.0
+            assert q_values[0][2] == -1.0
+            assert q_values[0][3] == -1.5
+
+    mock_network = MockQNetworkGradientStep()
+    agent = dql_agent.DQLAgent(mock_config, mock_network)
 
     def sample_memory_mock(batch_size):
-        assert batch_size == 4
-        return [(state, action, next_state, reward)]
+        assert batch_size == 2
+        return [(mock_state, action, next_state, reward, game_over)]
 
     agent.sample_memory = sample_memory_mock
-    agent.get_q_update = lambda *args: 42
+    agent.get_q_update = lambda *args: q_update
 
-    def gradient_step_mock(actual_q_update, actual_state, actual_action):
-        assert actual_q_update == 42
-        assert state == actual_state
-        assert action == actual_action
-
-    agent.gradient_step = gradient_step_mock
+    agent.memory_replay()

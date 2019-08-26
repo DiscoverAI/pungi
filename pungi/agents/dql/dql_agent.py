@@ -28,27 +28,28 @@ class DQLAgent(Agent):
         pass
 
     def get_q_update(self, reward, game_over, next_state):
+        # calculate the q update. if its game_over, our markov chain terminates and we just return the reward.
+        # If not, return the simplified q formula (learning rate will be 1)
         pass
-        # if game over, new update will be just the reward
-        # else reward + gamma * max(q_values)
 
-    def gradient_step(self, q_update, state, action):
+    def build_training_examples(self, batch):
+        # loop through the batch, which is a list of (state, action, reward, next_state, game_over) tuples
+        # add the state to the list of inputs
+        # add the prediction of the network, "patched" with the q update to the list of outputs
+        # return the two lists as tuple (inputs, outputs)
         pass
-        # get q_values from network, apply the q update to respective action,
-        # apply a single gradient step with state as input
-        # and updated q_values as output
 
     def memory_replay(self):
+        # sample batch from memory
+        # build the training examples
+        # train the network with the training examples
         pass
-        # sample a batch
-        # for each sample
-        # get the q update
-        # apply the gradient step
 
-    def update(self, state, action, next_state, reward):
-        self.replay_memory.append((state, action, next_state, reward))
+    def update(self, state, action, nextstate, reward):
+        self.replay_memory.append((state, action, nextstate, reward))
         return True
 
     def sample_memory(self, sample_size):
         min_sample_size = min(sample_size, len(self.replay_memory))
         return random.sample(self.replay_memory, min_sample_size)
+
