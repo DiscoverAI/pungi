@@ -31,6 +31,12 @@ class DQLAgent(Agent):
         pass
 
     def get_q_update(self, reward, game_over, next_state):
+        if game_over:
+            return reward
+        else:
+            prediction = self.q_network.predict(next_state)[0]
+            return reward + self.gamma * max(prediction)
+
         # calculate the q update. if its game_over, our markov chain terminates and we just return the reward.
         # If not, return the simplified q formula (learning rate will be 1)
         pass
