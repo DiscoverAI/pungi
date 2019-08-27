@@ -141,7 +141,7 @@ def test_memory_replay(mocker):
             assert (state == mock_state).all()
             return [[1.0, 2.0, -1.0, -1.5]]
 
-        def fit(self, states, q_values, verbose):
+        def fit(self, states, q_values, verbose=0):
             assert (states[0] == mock_state).all()
             assert q_values[0][action] == q_update
             assert q_values[0][0] == 1.0

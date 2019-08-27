@@ -24,11 +24,6 @@ class DQLAgent(Agent):
         prediction = self.q_network.predict(state)[0]
         q_values = {k: v for k, v in zip(DIRECTIONS, prediction)}
         return policies.epsilon_greedy_max_policy(q_values, episode_number)
-        # 1. get the prediction from self.q_network
-        # 2. label them accordingly in order of DIRECTIONS array
-        # e.g. {"left": 0.0, "right": 0.1, etc.}
-        # 3. call policies.epsilon_greedy_max_policy
-        pass
 
     def get_q_update(self, reward, game_over, next_state):
         if game_over:
@@ -37,22 +32,21 @@ class DQLAgent(Agent):
             prediction = self.q_network.predict(next_state)[0]
             return reward + self.gamma * max(prediction)
 
-        # calculate the q update. if its game_over, our markov chain terminates and we just return the reward.
-        # If not, return the simplified q formula (learning rate will be 1)
-        pass
-
     def build_training_examples(self, batch):
-        # loop through the batch, which is a list of (state, action, reward, next_state, game_over) tuples
-        # add the state to the list of inputs
-        # add the prediction of the network, "patched" with the q update to the list of outputs
-        # return the two lists as tuple (inputs, outputs)
-        pass
+        output_batch = []
+        input_batch = []
+        for (state, action, reward, next_state, game_over) in batch:
+            q_update = self.get_q_update(reward, game_over, next_state)
+            predictions = self.q_network.predict(state)[0]
+            predictions[action] = q_update
+            input_batch.append(state)
+            output_batch.append(predictions)
+        return input_batch, output_batch
 
     def memory_replay(self):
-        # sample batch from memory
-        # build the training examples
-        # train the network with the training examples
-        pass
+        batch = self.sample_memory(self.batch_size)
+        input_batch, output_batch = self.build_training_examples(batch)
+        self.q_network.fit(input_batch, output_batch)
 
     def update(self, state, action, nextstate, reward):
         self.replay_memory.append((state, action, nextstate, reward))
