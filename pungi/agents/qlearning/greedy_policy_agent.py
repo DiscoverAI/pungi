@@ -2,7 +2,8 @@ import time
 import webbrowser
 import logging
 
-from pungi.agents.qlearning import policies, qlearning
+from pungi.agents.qlearning import qlearning
+from pungi.agents import policies
 from pungi.config import CONF
 
 logger = logging.getLogger(__name__)

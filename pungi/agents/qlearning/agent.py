@@ -1,7 +1,7 @@
 from pungi.agents.agent import Agent
 import pungi.config as conf
 from pungi.agents.qlearning import qlearning
-import pungi.agents.qlearning.policies as policies
+import pungi.agents.policies as policies
 
 
 class QLearningAgent(Agent):

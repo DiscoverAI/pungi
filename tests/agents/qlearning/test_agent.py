@@ -2,7 +2,7 @@ import pungi.agents.qlearning.agent as qlearning_agent
 from unittest.mock import patch, ANY
 
 
-@patch("pungi.agents.qlearning.policies.get_policy", return_value="mock_policy")
+@patch("pungi.agents.policies.get_policy", return_value="mock_policy")
 @patch("pungi.agents.qlearning.qlearning.initialize_q_table", return_value="mock_initial_q")
 @patch("pungi.agents.qlearning.qlearning.next_move", return_value="mock_move")
 @patch("pungi.agents.qlearning.qlearning.update_q_value", return_value="mock_new_q_table")
