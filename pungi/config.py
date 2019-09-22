@@ -22,5 +22,9 @@ class _Config(object):
     def _to_environ_varname(string):
         return string.upper().replace('-', '_')
 
+    def __iter__(self):
+        for k, v in self._state.items():
+            yield k, v
+
 
 CONF = _Config()

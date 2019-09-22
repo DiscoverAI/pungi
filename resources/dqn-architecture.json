@@ -1,20 +1,51 @@
 [
   {
-    "class_name": "Dense",
+    "class_name": "Conv2D",
     "config": {
+      "trainable": true,
       "batch_input_shape": [
         null,
-        5
+        10,
+        10,
+        1
       ],
-      "units": 3,
+      "filters": 64,
+      "kernel_size": [
+        2,
+        2
+      ],
+      "strides": [
+        2,
+        2
+      ],
       "activation": "relu"
     }
   },
   {
+    "class_name": "Conv2D",
+    "config": {
+      "trainable": true,
+      "filters": 32,
+      "kernel_size": [
+        2,
+        2
+      ],
+      "strides": [
+        2,
+        2
+      ],
+      "activation": "relu"
+    }
+  },
+  {
+    "class_name": "Flatten",
+    "config": {}
+  },
+  {
     "class_name": "Dense",
     "config": {
-      "units": 1,
-      "activation": "relu"
+      "units": 4,
+      "activation": "linear"
     }
   }
 ]

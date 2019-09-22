@@ -20,7 +20,7 @@ def test_agent(update_q_table_mock, next_move_mock, init_q_table_mock, get_polic
     next_action = agent.next_action(state, episode_number=42)
     assert next_action == "mock_move"
     next_move_mock.assert_called_once_with(agent.q_table, state, ANY)
-    agent.update(state, next_action, next_state, reward)
+    agent.update(state, next_action, next_state, reward, False)
     update_q_table_mock.assert_called_once_with("mock_initial_q",
                                                 state,
                                                 next_action,

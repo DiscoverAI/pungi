@@ -11,12 +11,12 @@ class MockAgent(agent.Agent):
         self.next_action_calls = []
         self.update_calls = []
 
-    def next_action(self, *args):
-        self.next_action_calls.append(args)
+    def next_action(self, state, episode_number):
+        self.next_action_calls.append((tuple(state), episode_number))
         return "foo"
 
-    def update(self, *args):
-        self.update_calls.append(args)
+    def update(self, state, action, next_state, reward, game_over):
+        self.update_calls.append((tuple(state), action, tuple(next_state), reward, game_over))
 
 
 class MockEnvironment(gym.Env):
@@ -43,9 +43,9 @@ def test_run_episode():
     assert agent.next_action_calls == \
            [((0, 0), 42), ((0, 1), 42), ((0, 2), 42)]
     assert agent.update_calls == \
-           [((0, 0), 'foo', (0, 1), -1),
-            ((0, 1), 'foo', (0, 2), -1),
-            ((0, 2), 'foo', (0, 3), 100)]
+           [((0, 0), 'foo', (0, 1), -1, False),
+            ((0, 1), 'foo', (0, 2), -1, False),
+            ((0, 2), 'foo', (0, 3), 100, True)]
 
 
 @patch('pungi.agents.trainer.run_episode',

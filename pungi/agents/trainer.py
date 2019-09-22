@@ -6,15 +6,14 @@ logger = logging.getLogger(__name__)
 
 
 def run_episode(agent, environment, episode_number):
-    state = tuple(environment.reset())
+    state = environment.reset()
     game_over = False
     last_game_info = None
     while not game_over:
         action = agent.next_action(state, episode_number)
         next_state, reward, game_over, info = environment.step(action)
-        next_state = tuple(next_state)
         logger.debug('Game info: %s', info)
-        agent.update(state, action, next_state, reward)
+        agent.update(state, action, next_state, reward, game_over)
         state = next_state
         last_game_info = info
     logger.info('Ended game with info: %s', last_game_info)
