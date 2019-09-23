@@ -21,6 +21,7 @@ class DQLAgent(Agent):
         self.gamma = float(configuration['gamma'])
         self.batch_size = int(configuration['batch_size'])
         self.policy = policy
+        self.log_hook = keras.callbacks.TensorBoard(log_dir=configuration["log_directory"])
 
     def init_replay_memory(self, limit):
         self.replay_memory = deque(maxlen=limit)
@@ -53,7 +54,7 @@ class DQLAgent(Agent):
         input_batch, output_batch = self.build_training_examples(batch)
         x = np.array(input_batch)
         y = np.array(output_batch)
-        self.q_network.fit(x.reshape((-1, *x.shape[1:], 1)), y, verbose=0)
+        self.q_network.fit(x.reshape((-1, *x.shape[1:], 1)), y, verbose=0, callbacks=[self.log_hook])
 
     def update(self, state, action, next_state, reward, game_over):
         self.replay_memory.append((state, action, next_state, reward, game_over))

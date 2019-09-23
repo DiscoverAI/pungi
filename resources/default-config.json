@@ -18,5 +18,7 @@
   "gym_environment": "snake-v1",
   "policy": "epsilon_greedy_max_policy",
   "network": "dqn-architecture-dense.json",
-  "optimizer": "adam"
+  "optimizer": "adam",
+  "enable_tensorboard": true,
+  "log_directory": "logs"
 }
