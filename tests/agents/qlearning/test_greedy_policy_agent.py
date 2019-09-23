@@ -3,6 +3,18 @@ from unittest.mock import patch, call, ANY
 from pungi.agents.qlearning import greedy_policy_agent as agent
 import numpy as np
 import gym
+import pungi.agents.agent as agent_class
+
+class MockAgent (agent_class.Agent):
+
+    def next_action(self, state, episode_number):
+        return "left"
+
+    def update(self, state, action, next_state, reward, game_over):
+        pass
+
+    def persist(self, path_to_model_file):
+        pass
 
 
 class MockEnvironment(gym.Env):
@@ -24,22 +36,15 @@ class MockEnvironment(gym.Env):
 
 
 @patch("webbrowser.open_new")
-@patch('pungi.agents.qlearning.qlearning.next_move', return_value="left")
-def test_play_game(next_move, step, open_webbrowser):
+def test_play_game(open_webbrowser):
     env = MockEnvironment()
-    agent.play_in_spectator_mode("trained_q_table", env)
-    next_move.assert_has_calls([call("trained_q_table", ANY, ANY),
-                                call("trained_q_table", ANY, ANY),
-                                call("trained_q_table", ANY, ANY)])
-    step.assert_has_calls([call("left", "foobar")] * 3)
-    open_webbrowser.assert_called_once_with("foo bar/?spectate-game-id=foobar")
+    agentMock = MockAgent()
+    agent.play_in_spectator_mode(agentMock, env)
+    open_webbrowser.assert_called_once_with("foo bar/?spectate-game-id=10")
 
 
-@patch('pungi.agents.qlearning.qlearning.next_move', return_value="left")
-def test_play_game(next_move):
+def test_play_game_inbackground():
     env = MockEnvironment()
-    reward_sum = agent.play_in_background("trained_q_table", env)
+    agentMock = MockAgent()
+    reward_sum = agent.play_in_background(agentMock, env)
     assert reward_sum == -1
-    next_move.assert_has_calls([call("trained_q_table", ANY, ANY),
-                                call("trained_q_table", ANY, ANY),
-                                call("trained_q_table", ANY, ANY)])

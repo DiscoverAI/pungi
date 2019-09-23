@@ -9,14 +9,13 @@ from pungi.config import CONF
 logger = logging.getLogger(__name__)
 
 
-def play_game(q_table, on_before, on_step, environment):
+def play_game(agent, on_before, on_step, environment):
     state = tuple(environment.reset())
     game_over = False
-    policy = policies.get_policy(policy_name="max_policy")
     on_before(environment.current_game_id)
     total_reward = 0
     while not game_over:
-        next_action = qlearning.next_move(q_table, state, lambda q_values: policy(q_values, None))
+        next_action = agent.next_action(state, episode_number=-1)
         reward, state, game_over, info = environment.step(next_action)
         total_reward = total_reward + reward
         on_step()
@@ -24,7 +23,7 @@ def play_game(q_table, on_before, on_step, environment):
 
 
 def initialize_spectator_mode(game_id):
-    spectate_url = CONF.get_value("backend") + '/?spectate-game-id=' + game_id
+    spectate_url = CONF.get_value("backend") + '/?spectate-game-id=' + str(game_id)
     logger.info("Playing game, you can spectate it at: {}".format(spectate_url))
     webbrowser.open_new(spectate_url)
 

@@ -81,7 +81,7 @@ def test_next_action(mocker):
             return mock_prediction
 
     mock_network = SimpleMockQNetwork()
-    agent = dql_agent.DQLAgent(mock_config, mock_network)
+    agent = dql_agent.DQLAgent(mock_config, mock_network, epsilon_greedy_mock)
     agent.next_action(np.array([[0, 1], [0, 1]]), 42)
     assert mock_network.called_predict
     epsilon_greedy_mock.assert_called_with({'left': 1, 'right': 2, 'up': 3, 'down': 4}, 42)

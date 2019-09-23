@@ -13,13 +13,14 @@ STRING_TO_ACTION = {"left": 0, "right": 1, "up": 2, "down": 3}
 
 class DQLAgent(Agent):
 
-    def __init__(self, configuration, q_network):
+    def __init__(self, configuration, q_network, policy=policies.epsilon_greedy_max_policy):
         self.configuration = configuration
         self.replay_memory = None
         self.init_replay_memory(configuration['replay_memory_limit'])
         self.q_network = q_network
         self.gamma = float(configuration['gamma'])
         self.batch_size = int(configuration['batch_size'])
+        self.policy = policy
 
     def init_replay_memory(self, limit):
         self.replay_memory = deque(maxlen=limit)
@@ -27,7 +28,7 @@ class DQLAgent(Agent):
     def next_action(self, state, episode_number):
         prediction = self.q_network.predict(state.reshape(1, *state.shape, 1))[0]
         q_values = {k: v for k, v in zip(DIRECTIONS, prediction)}
-        return policies.epsilon_greedy_max_policy(q_values, episode_number)
+        return self.policy(q_values, episode_number)
 
     def get_q_update(self, reward, game_over, next_state):
         if game_over:
