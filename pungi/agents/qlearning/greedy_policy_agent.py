@@ -6,7 +6,7 @@ from pungi.agents.qlearning import qlearning
 from pungi.agents import policies
 from pungi.config import CONF
 
-logger = logging.getLogger(__name__)
+logger = logging.getLogger('root')
 
 
 def play_game(agent, on_before, on_step, environment):

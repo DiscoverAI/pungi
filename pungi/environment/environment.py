@@ -5,7 +5,7 @@ import pungi.config as conf
 import pungi.environment.backend as backend
 import pungi.environment.state as state
 
-logger = logging.getLogger(__name__)
+logger = logging.getLogger('root')
 
 import gym
 

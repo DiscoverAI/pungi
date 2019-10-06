@@ -13,6 +13,9 @@ STRING_TO_ACTION = {"left": 0, "right": 1, "up": 2, "down": 3}
 
 class DQLAgent(Agent):
 
+    def on_after_episode(self):
+        self.replay_memory()
+
     def __init__(self, configuration, q_network, policy=policies.epsilon_greedy_max_policy):
         self.configuration = configuration
         self.replay_memory = None
@@ -21,7 +24,6 @@ class DQLAgent(Agent):
         self.gamma = float(configuration['gamma'])
         self.batch_size = int(configuration['batch_size'])
         self.policy = policy
-        self.log_hook = keras.callbacks.TensorBoard(log_dir=configuration["log_directory"])
 
     def init_replay_memory(self, limit):
         self.replay_memory = deque(maxlen=limit)
@@ -54,11 +56,10 @@ class DQLAgent(Agent):
         input_batch, output_batch = self.build_training_examples(batch)
         x = np.array(input_batch)
         y = np.array(output_batch)
-        self.q_network.fit(x.reshape((-1, *x.shape[1:], 1)), y, verbose=0, callbacks=[self.log_hook])
+        self.q_network.fit(x.reshape((-1, *x.shape[1:], 1)), y, verbose=0)
 
     def update(self, state, action, next_state, reward, game_over):
         self.replay_memory.append((state, action, next_state, reward, game_over))
-        self.memory_replay()
         return True
 
     def sample_memory(self, sample_size):

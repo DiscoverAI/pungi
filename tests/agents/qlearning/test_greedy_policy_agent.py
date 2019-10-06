@@ -5,7 +5,8 @@ import numpy as np
 import gym
 import pungi.agents.agent as agent_class
 
-class MockAgent (agent_class.Agent):
+
+class MockAgent(agent_class.Agent):
 
     def next_action(self, state, episode_number):
         return "left"
@@ -24,9 +25,9 @@ class MockEnvironment(gym.Env):
 
     def step(self, action):
         result = [
-            (-1, np.array([3, 3]), False, {"score": 10}),
-            (100, np.array([2, 3]), False, {"score": 11}),
-            (-100, np.array([1, 3]), True, {"score": 11})
+            (np.array([3, 3]), -1, False, {"score": 10}),
+            (np.array([2, 3]), -1, False, {"score": 11}),
+            (np.array([1, 3]), -100, True, {"score": 11})
         ][self.steps]
         self.steps += 1
         return result
@@ -47,4 +48,4 @@ def test_play_game_inbackground():
     env = MockEnvironment()
     agentMock = MockAgent()
     reward_sum = agent.play_in_background(agentMock, env)
-    assert reward_sum == -1
+    assert reward_sum == -1 - 1 - 100

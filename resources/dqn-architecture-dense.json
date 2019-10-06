@@ -1,0 +1,58 @@
+[
+  {
+    "class_name": "Flatten",
+    "config": {},
+    "batch_input_shape": [
+      null,
+      7,
+      7,
+      1
+    ]
+  },
+  {
+    "class_name": "Dense",
+    "config": {
+      "units": 120,
+      "activation": "relu"
+    }
+  },
+   {
+    "class_name": "Dropout",
+    "config": {
+      "rate": 0.15
+    }
+  },
+  {
+    "class_name": "Dense",
+    "config": {
+      "units": 120,
+      "activation": "relu"
+    }
+  },
+  {
+    "class_name": "Dropout",
+    "config": {
+      "rate": 0.15
+    }
+  },
+  {
+    "class_name": "Dense",
+    "config": {
+      "units": 120,
+      "activation": "relu"
+    }
+  },
+  {
+    "class_name": "Dropout",
+    "config": {
+      "rate": 0.15
+    }
+  },
+  {
+    "class_name": "Dense",
+    "config": {
+      "units": 4,
+      "activation": "softmax"
+    }
+  }
+]

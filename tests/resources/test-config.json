@@ -13,5 +13,12 @@
   "snake_moved_reward": 32,
   "game_over_reward": 42,
   "gym_environment": "snake-v1",
-  "policy": "mock_policy"
+  "policy": "mock_policy",
+  "gamma": 0.99,
+  "replay_memory_limit": 100000,
+  "network": "dqn-architecture-dense.json",
+  "optimizer": "adam",
+  "enable_tensorboard": false,
+  "log_directory": "logs",
+  "batch_size": 32
 }

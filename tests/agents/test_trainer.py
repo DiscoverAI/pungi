@@ -18,6 +18,9 @@ class MockAgent(agent.Agent):
     def update(self, state, action, next_state, reward, game_over):
         self.update_calls.append((tuple(state), action, tuple(next_state), reward, game_over))
 
+    def on_after_episode(self):
+        pass
+
 
 class MockEnvironment(gym.Env):
     def __init__(self):

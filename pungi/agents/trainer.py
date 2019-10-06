@@ -2,7 +2,7 @@ import logging
 
 import pungi.config as conf
 
-logger = logging.getLogger(__name__)
+logger = logging.getLogger('root')
 
 
 def run_episode(agent, environment, episode_number):
@@ -16,6 +16,7 @@ def run_episode(agent, environment, episode_number):
         agent.update(state, action, next_state, reward, game_over)
         state = next_state
         last_game_info = info
+    agent.on_after_episode()
     logger.info('Ended game with info: %s', last_game_info)
 
 

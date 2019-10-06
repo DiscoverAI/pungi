@@ -7,3 +7,6 @@ class Agent:
 
     def persist(self, path_to_model_file):
         raise NotImplementedError
+
+    def on_after_episode(self):
+        raise NotImplementedError
