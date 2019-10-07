@@ -31,12 +31,12 @@ class SnakeEnv(gym.Env):
         reward = self.get_reward(next_state)
         game_over = next_state["game-over"]
         info = {"score": next_state["score"]}
-        return np.array(next_state["board"], dtype=np.int8), reward, game_over, info
+        return np.array(next_state["board"], dtype=np.int8) * (1 / 3), reward, game_over, info
 
     def reset(self):
         self.current_game_id = backend.register_new_game()
         game_info = backend.get_game_info(self.current_game_id)
-        return np.array(game_info["board"], dtype=np.int8)
+        return np.array(game_info["board"], dtype=np.int8) * (1 / 3)
 
     def render(self, mode='human', close=False):
         pass  # Here one can log human readable state of the environment

@@ -17,6 +17,7 @@ from pungi.agents.qlearning import greedy_policy_agent as agent
 from pungi.agents.qlearning.agent import QLearningAgent
 import pungi.environment.environment  # import registers the environment
 from keras.models import load_model
+from keras.optimizers import Adam
 
 logger = log.setup_custom_logger('root')
 
@@ -43,7 +44,7 @@ def run(argv):
         model = argv[2]
         if model == "dqn":
             dqn = load_default_dqn()
-            dqn.compile(optimizer=conf.CONF.get_value("optimizer"), loss="mse")
+            dqn.compile(optimizer=Adam(lr=0.0005), loss="mse")
             q_learning_agent = DQLAgent(configuration=dict(conf.CONF),
                                         q_network=dqn)
         elif model == "q_table":

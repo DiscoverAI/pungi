@@ -6,7 +6,6 @@ from collections import deque
 import pungi.agents.policies as policies
 from pungi.agents.qlearning.qlearning import DIRECTIONS
 import time
-import keras
 
 STRING_TO_ACTION = {"left": 0, "right": 1, "up": 2, "down": 3}
 
@@ -14,7 +13,7 @@ STRING_TO_ACTION = {"left": 0, "right": 1, "up": 2, "down": 3}
 class DQLAgent(Agent):
 
     def on_after_episode(self):
-        self.replay_memory()
+        self.memory_replay()
 
     def __init__(self, configuration, q_network, policy=policies.epsilon_greedy_max_policy):
         self.configuration = configuration
@@ -68,3 +67,4 @@ class DQLAgent(Agent):
 
     def persist(self, path_to_output_folder):
         self.q_network.save(path_to_output_folder + "/" + str(int(time.time())) + ".h5")
+
